@@ -1,0 +1,146 @@
+<template>
+  <q-layout view="lHh Lpr lff">
+    <q-header>
+      <q-toolbar class="bg-white" style="height: 65px">
+        <q-btn
+          flat
+          dense
+          v-if="!leftDrawerOpen"
+          round
+          class="text-primary"
+          icon="menu"
+          aria-label="Menu"
+        />
+        <!-- @click="toggleLeftDrawer" -->
+        <q-btn v-else dense round unelevated color="primary" icon="chevron_left" />
+        <!-- @click="toggleLeftDrawer" -->
+        <q-toolbar-title class="text-primary text-weight-bold"></q-toolbar-title>
+        <q-space />
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer v-model="leftDrawerOpen" show-if-above :breakpoint="500" bordered>
+      <div class="q-px-xl q-py-md q-mx-md">
+        <img src="images/delibo.svg" loading="lazy" alt="Delibo Logo" width="150" height="150" />
+
+        <div class="q-px-xl q-py-md text-weight-bolder text-h6 text-primary">DELIBO</div>
+      </div>
+      <!-- <q-scroll-area class="fit"> -->
+      <q-list>
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+      </q-list>
+      <!-- </q-scroll-area> -->
+    </q-drawer>
+
+    <q-page-container>
+      <!-- :style="toggleLeftDrawer && !$q.screen.sm ? 'padding-left: 110px !important;' : ''" -->
+      <q-page padding>
+        <q-dialog v-model="confirmLogout" persistent width="350">
+          <q-card class="logout-dialog">
+            <q-card-section class="row items-center">
+              <span class="q-ml-sm text-bold text-subtitle1">Are you sure want to logout?</span>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="No" color="primary" v-close-popup />
+              <q-btn flat label="Yes, Logout" color="primary" @click="logout" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+        <router-view />
+      </q-page>
+    </q-page-container>
+  </q-layout>
+</template>
+
+<script>
+import { defineAsyncComponent } from "vue";
+
+// Icons from https://fonts.google.com/icons?icon.set=Material+Icons
+const linksList = [
+  {
+    title: "Dashboard",
+    path: "/",
+    icon: "dashboard",
+  },
+  {
+    title: "Super admin functions",
+    path: "/superadmin",
+    icon: "admin_panel_settings",
+  },
+  {
+    title: "Factory Config",
+    path: "/factoryconfig",
+    icon: "settings",
+  },
+  {
+    title: "HMI Warehouse",
+    path: "/hmiwarehouse",
+    icon: "storage",
+  },
+  {
+    title: "Create Location",
+    path: "/createlocation",
+    icon: "add_location",
+  },
+  {
+    title: "Manage Locations",
+    path: "/managelocations",
+    icon: "location_city",
+  },
+  {
+    title: "Test Delibo Locations",
+    path: "/testlocations",
+    icon: "location_on",
+  },
+  {
+    title: "Defaulted Delibos",
+    path: "/defaulteddelibos",
+    icon: "bento",
+  },
+  {
+    title: "Hidden Delibos",
+    path: "/hidden_delibo",
+    icon: "warning",
+  },
+  {
+    title: "CRM",
+    path: "/crm",
+    icon: "people",
+  },
+  {
+    title: "Calendar",
+    path: "/calendar",
+    icon: "event",
+  },
+  // {
+  //   title: "FAQ",
+  //   path: "/faq",
+  //   icon: "warning",
+  // },
+];
+
+export default {
+  name: "MainLayout",
+  data() {
+    return {
+      essentialLinks: linksList,
+      leftDrawerOpen: false,
+      confirmLogout: false,
+      DeliboLocationOptions: [],
+      // localLocationData: null
+    };
+  },
+  components: {
+    EssentialLink: defineAsyncComponent(() =>
+      import("components/EssentialLink.vue")
+    ),
+  },
+};
+</script>
+
+<style scoped>
+.logout-dialog {
+  width: 350px;
+}
+</style>

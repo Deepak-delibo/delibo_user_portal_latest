@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-deliboorg-dev-141119-authRole",
+      "UnauthRoleArn": "arn:aws:iam::181299799834:role/amplify-deliboorg-dev-141119-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::181299799834:role/amplify-deliboorg-dev-141119-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-deliboorg-dev-141119-deployment",
+      "UnauthRoleName": "amplify-deliboorg-dev-141119-unauthRole",
+      "StackName": "amplify-deliboorg-dev-141119",
+      "StackId": "arn:aws:cloudformation:ap-south-1:181299799834:stack/amplify-deliboorg-dev-141119/7edd0710-c982-11ee-8146-0a45208dd871",
+      "AmplifyAppId": "d3nhtq47mxm3hl"
+    },
+    "categories": {
+      "auth": {
+        "deliboOrg": {}
+      }
+    }
+  }
+}
