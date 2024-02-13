@@ -1,6 +1,6 @@
 <template>
   <q-card class="my-card text-white login_card">
-    <div class="q-pa-md">
+    <div class="q-pa-md q-my-md">
       <div class="text-center">
         <img
           src="../../public/images/delibo-logo.svg"
@@ -60,7 +60,7 @@
         </q-input>
 
         <div class="text-center q-mt-md">
-          <q-btn label="Login" type="submit" color="primary" />
+          <q-btn label="Login" type="submit" class="full-width" color="primary" />
 
           <!-- <q-btn
             label="Reset"

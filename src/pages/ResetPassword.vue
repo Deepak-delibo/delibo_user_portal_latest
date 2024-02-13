@@ -1,6 +1,6 @@
 <template>
   <q-card class="my-card text-white reset_password_card">
-    <div class="q-pa-md">
+    <div class="q-pa-md q-my-md">
       <div class="text-center">
         <img
           src="../../public/images/delibo-logo.svg"
@@ -14,6 +14,7 @@
       <q-form @submit="onSubmit" @reset="onReset" class="pt-2">
 
         <q-input
+        hidden
           filled
           v-model="password"
           class="q-mt-md"
@@ -59,15 +60,7 @@
         </q-input>
 
         <div class="text-center q-mt-md">
-          <q-btn label="Reset Password" type="submit" color="primary" />
-
-          <!-- <q-btn
-            label="Reset"
-            type="reset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          /> -->
+          <q-btn label="Reset Password" class="full-width" type="submit" color="primary" />
         </div>
       </q-form>
     </div>

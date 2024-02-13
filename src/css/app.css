@@ -1,4 +1,17 @@
 /* app global css */
+@font-face {
+  font-family: "rubik";
+  src: url('../../public/fonts/Rubik-W92V.ttf') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+body{
+   font-family: "rubik";
+  font-style: normal;
+  font-weight: 500;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -33,7 +46,7 @@ textarea:-webkit-autofill:focus {
 
 .input-container .textInput {
     width: 100% !important;
-     
+
 }
 .input-container label {
     margin-top: 4px !important;
