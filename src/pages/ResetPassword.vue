@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card text-white login_card">
+  <q-card class="my-card text-white reset_password_card">
     <div class="q-pa-md">
       <div class="text-center">
         <img
@@ -12,21 +12,7 @@
         <p class="text-primary">Smart Lockers, Smarter Living!</p>
       </div>
       <q-form @submit="onSubmit" @reset="onReset" class="pt-2">
-        <q-input
-          filled
-          v-model="name"
-          label="Username*"
-          autocomplete="Username"
-          lazy-rules
-          :rules="[
-            (val) =>
-              (val && val.length >= 6) ||
-              'Username must be at least 6 characters long',
-            (val) =>
-              /^[a-zA-Z0-9]+$/.test(val) ||
-              'Username can only contain letters and numbers',
-          ]"
-        />
+
         <q-input
           filled
           v-model="password"
@@ -36,18 +22,10 @@
           autocomplete="current-password"
           lazy-rules
           :rules="[
-            (val) =>
-              (val && val.length >= 8) ||
-              'Password must be at least 8 characters long',
-            (val) =>
-            /^(?=.*[0-9])/.test(val) || 'Password must contain at least one number',
-
-            (val) =>
-            /^(?=.*[!@#\$%\^&\*_\-=+])/.test(val) ||
-              'Password must contain at least one special character',
-              (val) =>
-              (val) => /^(?=.*[a-zA-Z])/.test(val) ||
-              'Password must contain at least one letter',
+            (val) => (val && val.length >= 8) || 'Password must be at least 8 characters long',
+            (val) => /^(?=.*[0-9])/.test(val) || 'Password must contain at least one number',
+            (val) => /^(?=.*[!@#\$%\^&\*_\-=+])/.test(val) || 'Password must contain at least one special character',
+            (val) => /^(?=.*[a-zA-Z])/.test(val) || 'Password must contain at least one letter',
           ]"
         >
           <template v-slot:append>
@@ -59,8 +37,29 @@
           </template>
         </q-input>
 
+        <q-input
+          filled
+          v-model="confirmPassword"
+          class="q-mt-md"
+          label="Confirm Password *"
+          :type="showConfirmPassword ? 'text' : 'password'"
+          autocomplete="current-password"
+          lazy-rules
+          :rules="[
+            (val) => (val && val === password) || 'Passwords do not match',
+          ]"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="showConfirmPassword ? 'visibility' : 'visibility_off'"
+              @click="toggleConfirmPasswordVisibility"
+              class="cursor-pointer"
+            />
+          </template>
+        </q-input>
+
         <div class="text-center q-mt-md">
-          <q-btn label="Login" type="submit" color="primary" />
+          <q-btn label="Reset Password" type="submit" color="primary" />
 
           <!-- <q-btn
             label="Reset"
@@ -86,35 +85,43 @@ export default {
     const router = useRouter();
 
     const showPassword = ref(false);
+    const showConfirmPassword = ref(false);
+    const password = ref(null);
+    const confirmPassword = ref(null);
 
     const togglePasswordVisibility = () => {
       showPassword.value = !showPassword.value;
     };
-    const name = ref(null);
-    const password = ref(null);
-    const accept = ref(false);
+    const toggleConfirmPasswordVisibility = () => {
+      showConfirmPassword.value = !showConfirmPassword.value;
+    };
     return {
-      name,
       password,
-      accept,
+      confirmPassword,
       showPassword,
+      showConfirmPassword,
       togglePasswordVisibility,
+      toggleConfirmPasswordVisibility,
       onSubmit() {
-        if (accept.value !== true) {
-          console.log("find all dta");
-          router.push({ name: "reset-password" });
+        if (password.value === confirmPassword.value) {
+          console.log("Passwords match");
+          // Proceed with your submit logic
+        } else {
+          console.log("Passwords do not match");
+          // Show error message or handle invalid passwords
         }
       },
       onReset() {
-        name.value = null;
         password.value = null;
+        confirmPassword.value = null;
       },
     };
   },
 };
 </script>
+
 <style>
-.login_card {
+.reset_password_card {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -126,7 +133,7 @@ export default {
 }
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {
-  .login_card {
+  .reset_password_card {
     width: 90%; /* Adjust width for smaller screens */
   }
 }

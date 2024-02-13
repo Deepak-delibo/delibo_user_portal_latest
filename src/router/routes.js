@@ -11,7 +11,7 @@ const routes = [
     component: () => import('layouts/AuthLayout.vue'),
     children: [
       { path: 'login', component: () => import('pages/LoginPage.vue') },
-      // { path: 'register', component: () => import('pages/RegisterPage.vue') },
+      { path: 'resetPassword',name:"reset-password", component: () => import('pages/ResetPassword.vue') },
       // other admin routes
     ]
   },
