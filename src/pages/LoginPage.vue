@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="auth-section wf-section">
     <div class="auth-container">
       <div class="auth-header">
@@ -19,10 +19,9 @@
         <div class="login-container">
           <div class="heading-text centered">Admin Portal</div>
           <div v-if="!newPasswordRequired">
-               <!-- @keyup.enter="loginClicked()" -->
             <text-input
               ref="loginUsername"
-           
+
               v-model="username"
               :required="true"
               :autofocus="true"
@@ -30,10 +29,9 @@
               label="Username"
               placeholder="Please enter your username"
             />
-             <!-- @keyup.enter="loginClicked()" -->
             <password-input
               ref="loginPassword"
-             
+
               v-model="password"
               :required="true"
               :autofocus="false"
@@ -43,7 +41,6 @@
             />
           </div>
           <div v-else>
-              <!-- @keyup.enter="changePasswordClicked()" -->
 
             <password-input
               ref="loginNewPassword"
@@ -84,7 +81,7 @@ var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
 });
 import { defineAsyncComponent } from "vue";
 export default {
-  name: "Login",
+
   data() {
     return {
       username: "",
@@ -111,4 +108,17 @@ export default {
 </script>
 
 <style>
-</style>
+</style> -->
+<template>
+  <q-card
+    class="my-card text-white"
+    style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
+  >
+    <q-card-section>
+      <div class="text-h6">Our Changing Planet</div>
+      <div class="text-subtitle2">by John Doe</div>
+    </q-card-section>
+
+    <q-card-section class="q-pt-none"> lorem </q-card-section>
+  </q-card>
+</template>

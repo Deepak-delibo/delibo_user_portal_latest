@@ -13,6 +13,7 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^6.0.16",
     "@aws-amplify/pubsub": "^4.4.9",
     "@quasar/extras": "^1.16.4",
     "aws-amplify": "^6.0.15",

@@ -1,53 +1,27 @@
-import { route } from "quasar/wrappers";
-import {
-  createRouter,
-  createMemoryHistory,
-  createWebHistory,
-  createWebHashHistory,
-} from "vue-router";
-import routes from "./routes";
-import AwsExports from "../aws-exports";
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Router instance.
- */
+  import { createRouter, createWebHistory } from 'vue-router';
+  import routes from './routes'; // Import your routes from a separate file
 
-export default route(function (/* { store, ssrContext } */) {
-  const createHistory = process.env.SERVER
-    ? createMemoryHistory
-    : process.env.VUE_ROUTER_MODE === "history"
-    ? createWebHistory
-    : createWebHashHistory;
-
-  const Router = createRouter({
-    scrollBehavior: () => ({ left: 0, top: 0 }),
+  const router = createRouter({
+    history: createWebHistory(process.env.BASE_URL), // Use createWebHistory for history mode
     routes,
-
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
-    history: createHistory(
-      process.env.MODE === "ssr" ? void 0 : process.env.VUE_ROUTER_BASE
-    ),
   });
 
-  Router.beforeEach((to, from) => {
-    // store.dispatch("setSidePaneItemActive", { route: to.fullPath });
-    const clientId = AwsExports.aws_user_pools_web_client_id;
-    const lastuser = localStorage.getItem(
-      `CognitoIdentityServiceProvider.${clientId}.LastAuthUser`
-    );
-    const authToken = localStorage.getItem(
-      `CognitoIdentityServiceProvider.${clientId}.${lastuser}.accessToken`
-    );
-    if (authToken && to.fullPath.includes("auth")) {
-      Router.push("/");
+  router.beforeEach((to, from, next) => {
+    // Check if the route requires authentication
+    if (to.meta.requiresAuth) {
+      // Assuming you have some logic to check authentication, for example, checking if there is a token in local storage
+      const isAuthenticated = localStorage.getItem('token');
+
+      if (!isAuthenticated) {
+        next('/auth/login');
+      } else {
+        // If authenticated, proceed to the next route
+        next();
+      }
+    } else {
+      // If the route does not require authentication, proceed to the next route
+      next();
     }
   });
 
-  return Router;
-});
+  export default router;

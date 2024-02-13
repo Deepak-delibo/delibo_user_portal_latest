@@ -2,11 +2,11 @@
   <div>
     <router-view class="common-bg" />
     <!-- <full-screen-loader /> -->
-    <overlay-models v-if="showOverlay" />
+    <!-- <overlay-models v-if="showOverlay" />
     <q-scroll-observer @scroll="handleScroll" :threshold="[0, 5]"></q-scroll-observer>
     <div class="fixed-bottom-right q-pa-xl delay scroll" v-show="scrollDown">
       <q-btn round color="primary" icon="navigation" @click="myFunction()" />
-    </div>
+    </div> -->
   </div>
 </template>
 
