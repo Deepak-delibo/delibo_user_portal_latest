@@ -6,14 +6,16 @@
     <q-scroll-observer @scroll="handleScroll" :threshold="[0, 5]"></q-scroll-observer>
     <div class="fixed-bottom-right q-pa-xl delay scroll" v-show="scrollDown">
       <q-btn round color="primary" icon="navigation" @click="myFunction()" />
-    </div> -->
+    </div>-->
   </div>
 </template>
 
 <script>
+import { signIn } from "aws-amplify/auth";
+
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "App",
@@ -27,7 +29,7 @@ export default {
   },
   data() {
     return {
-      scrollDown: false
+      scrollDown: false,
     };
   },
 
@@ -42,6 +44,7 @@ export default {
     // }
   },
   mounted() {
+    this.signInFunc();
     // this.storeCurrentSessionID();
     // console.log("Subscribing to keep alive processed");
     // this.$store.dispatch("subscribeToTopic", {
@@ -51,11 +54,24 @@ export default {
     // this.$store.dispatch("getAllDeliboLocations");
   },
   methods: {
+    async signInFunc() {
+      try {
+        const username = "deepak";
+        const password = "Deepak@2024";
+
+        const { isSignedIn, nextStep } = await signIn({ username, password });
+        console.log(isSignedIn);
+        console.log(nextStep);
+      } catch (error) {
+        console.log("error signing in", error);
+      }
+    },
+
     myFunction() {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     },
     handleScroll(event) {
@@ -69,8 +85,8 @@ export default {
         idFromStorage = id;
       }
       // this.$store.commit("setCurrentSessionID", idFromStorage);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

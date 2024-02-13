@@ -16,6 +16,7 @@
     "@aws-amplify/auth": "^6.0.16",
     "@aws-amplify/pubsub": "^4.4.9",
     "@quasar/extras": "^1.16.4",
+    "amazon-cognito-identity-js": "^6.3.7",
     "aws-amplify": "^6.0.15",
     "aws-amplify-vue": "^2.1.9",
     "aws-sdk": "^2.1554.0",

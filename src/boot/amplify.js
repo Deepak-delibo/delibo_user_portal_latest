@@ -1,3 +1,8 @@
+import { Amplify } from 'aws-amplify';
+import config from '../../src/amplifyconfiguration.json';
+Amplify.configure(config);
+
+
 // import { Auth } from "@aws-amplify/auth";
 // import { Amplify, PubSub } from "aws-amplify";
 // import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
