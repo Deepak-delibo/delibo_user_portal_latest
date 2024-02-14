@@ -1,16 +1,16 @@
 export default {
   checkAllowedRoutes(path) {
-    let role = "facilityManager";
+    let role = "superAdmin";
     // let role = localStorage.getItem('Role')
     let allowed_super_admin_routes = [
-      "/adminDashboard",
-      "/callerDashboard",
-      "/mobilePage",
+      "/dashboard",
+      "/permission",
+      "/booking",
       "/nointernet",
     ];
     let allowed_FM_routes = [
-      "/callerDashboard",
-      "/leadDetails",
+      "/dashboard",
+      "/booking",
       "/nointernet",
     ];
     if (role === "superAdmin" && allowed_super_admin_routes.includes(path)) {
@@ -22,14 +22,14 @@ export default {
     }
   },
   checkSideBarItems(name) {
-    let role = "caller";
+    let role = "superAdmin";
 
     // let role = localStorage.getItem('Role');
-    let allowed_admin_pages = ["DashBoard", "Leads", "MobilePage"];
-    let allowed_caller_pages = ["Caller Dashboard", "Leads"];
-    if (role === "admin" && allowed_admin_pages.includes(name)) {
+    let allowed_super_admin_routes = ["DashBoard", "Permission", "Booking"];
+    let allowed_FM_routes = ["DashBoard", "Booking"];
+    if (role === "superAdmin" && allowed_super_admin_routes.includes(name)) {
       return true;
-    } else if (role === "caller" && allowed_caller_pages.includes(name)) {
+    } else if (role === "facilityManager" && allowed_FM_routes.includes(name)) {
       return true;
     } else {
       return false;
