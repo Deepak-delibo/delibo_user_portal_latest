@@ -12,22 +12,40 @@
           aria-label="Menu"
         />
         <!-- @click="toggleLeftDrawer" -->
-        <q-btn v-else dense round unelevated color="primary" icon="chevron_left" />
+        <q-btn
+          v-else
+          dense
+          round
+          unelevated
+          color="primary"
+          icon="chevron_left"
+        />
         <!-- @click="toggleLeftDrawer" -->
-        <q-toolbar-title class="text-primary text-weight-bold"></q-toolbar-title>
+        <q-toolbar-title
+          class="text-primary text-weight-bold"
+        ></q-toolbar-title>
         <q-space />
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above :breakpoint="500" bordered>
       <div class="q-px-xl q-py-md q-mx-md">
-        <img src="images/delibo.svg" loading="lazy" alt="Delibo Logo" width="150" height="150" />
+        <img
+          src="images/delibo.svg"
+          loading="lazy"
+          alt="Delibo Logo"
+          width="150"
+          height="150"
+        />
 
-        <div class="q-px-xl q-py-md text-weight-bolder text-h6 text-primary">DELIBO</div>
+        <div class="q-px-xl q-py-md text-weight-bolder text-h6 text-primary">
+          DELIBO
+        </div>
       </div>
       <!-- <q-scroll-area class="fit"> -->
       <q-list>
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <sideBarItems ></sideBarItems>
+        <!-- <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" /> -->
       </q-list>
       <!-- </q-scroll-area> -->
     </q-drawer>
@@ -38,12 +56,20 @@
         <q-dialog v-model="confirmLogout" persistent width="350">
           <q-card class="logout-dialog">
             <q-card-section class="row items-center">
-              <span class="q-ml-sm text-bold text-subtitle1">Are you sure want to logout?</span>
+              <span class="q-ml-sm text-bold text-subtitle1"
+                >Are you sure want to logout?</span
+              >
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="No" color="primary" v-close-popup />
-              <q-btn flat label="Yes, Logout" color="primary" @click="logout" v-close-popup />
+              <q-btn
+                flat
+                label="Yes, Logout"
+                color="primary"
+                @click="logout"
+                v-close-popup
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -55,7 +81,8 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-
+import sideBarItems from "../SideBar/sideBarItems.vue";
+import BarLists from "../SideBar/sideBar.js";
 // Icons from https://fonts.google.com/icons?icon.set=Material+Icons
 const linksList = [
   {
@@ -128,13 +155,43 @@ export default {
       leftDrawerOpen: false,
       confirmLogout: false,
       DeliboLocationOptions: [],
-      // localLocationData: null
+      sideBardata: [
+        {
+          title: "DashBoard",
+          path: "/adminDashboard",
+        },
+        {
+          title: "Caller Dashboard",
+          path: "/callerDashboard",
+        },
+        {
+          title: "My Attendance",
+          path: "/call",
+        },
+        {
+          title: "Settings",
+          path: "/course",
+        },
+        {
+          title: "MobilePage",
+          path: "/mobilePage",
+        },
+        {
+          title: "Leads",
+          path: "/leadDetails",
+        },
+      ],
     };
   },
+  mounted() {
+    // Assign sidebar data from BarLists to sideBardata
+    this.sideBardata = BarLists;
+  },
   components: {
-    EssentialLink: defineAsyncComponent(() =>
-      import("components/EssentialLink.vue")
-    ),
+    sideBarItems,
+    // EssentialLink: defineAsyncComponent(() =>
+    //   import("components/EssentialLink.vue")
+    // ),
   },
 };
 </script>
