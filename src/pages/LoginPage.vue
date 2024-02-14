@@ -68,7 +68,7 @@
             color="primary"
             flat
             class="q-ml-sm"
-          /> -->
+          />-->
         </div>
       </q-form>
     </div>
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { signIn } from "aws-amplify/auth";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -93,22 +94,39 @@ export default {
     const name = ref(null);
     const password = ref(null);
     const accept = ref(false);
+    const onSubmit = async () => {
+      if (accept.value !== true) {
+        try {
+          const { isSignedIn, nextStep } = await signIn({
+            username: name.value,
+            password: password.value,
+          });
+          // console.log(isSignedIn);
+          console.log(nextStep);
+          localStorage.setItem("userName", name.value);
+          if (
+            nextStep.signInStep == "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+          ) {
+            router.push({ name: "reset-password" });
+          }
+        } catch (error) {
+          console.log("error signing in", error);
+        }
+      }
+    };
+
+    const onReset = () => {
+      name.value = null;
+      password.value = null;
+    };
     return {
       name,
       password,
       accept,
       showPassword,
       togglePasswordVisibility,
-      onSubmit() {
-        if (accept.value !== true) {
-          console.log("find all dta");
-          router.push({ name: "reset-password" });
-        }
-      },
-      onReset() {
-        name.value = null;
-        password.value = null;
-      },
+      onSubmit,
+      onReset,
     };
   },
 };

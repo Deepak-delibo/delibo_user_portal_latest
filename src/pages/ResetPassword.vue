@@ -14,7 +14,6 @@
       <q-form @submit="onSubmit" @reset="onReset" class="pt-2">
 
         <q-input
-        hidden
           filled
           v-model="password"
           class="q-mt-md"
@@ -71,7 +70,7 @@
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
+import ApiServices from "../ApiServices";
 export default {
   setup() {
     const $q = useQuasar();
@@ -95,9 +94,10 @@ export default {
       showConfirmPassword,
       togglePasswordVisibility,
       toggleConfirmPasswordVisibility,
-      onSubmit() {
+      async onSubmit() {
         if (password.value === confirmPassword.value) {
-          console.log("Passwords match");
+          const get_data = await ApiServices.resetUserPassword();
+          console.log("Passwords match",get_data);
           // Proceed with your submit logic
         } else {
           console.log("Passwords do not match");

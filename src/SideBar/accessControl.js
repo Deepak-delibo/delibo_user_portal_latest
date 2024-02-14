@@ -1,21 +1,21 @@
 export default {
   checkAllowedRoutes(path) {
-    let role = "caller";
+    let role = "facilityManager";
     // let role = localStorage.getItem('Role')
-    let allowed_admin_routes = [
+    let allowed_super_admin_routes = [
       "/adminDashboard",
       "/callerDashboard",
       "/mobilePage",
       "/nointernet",
     ];
-    let allowed_caller_routes = [
+    let allowed_FM_routes = [
       "/callerDashboard",
       "/leadDetails",
       "/nointernet",
     ];
-    if (role === "admin" && allowed_admin_routes.includes(path)) {
+    if (role === "superAdmin" && allowed_super_admin_routes.includes(path)) {
       return true;
-    } else if (role === "caller" && allowed_caller_routes.includes(path)) {
+    } else if (role === "facilityManager" && allowed_FM_routes.includes(path)) {
       return true;
     } else {
       return false;

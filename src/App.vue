@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { signIn } from "aws-amplify/auth";
 
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
@@ -44,7 +43,7 @@ export default {
     // }
   },
   mounted() {
-    this.signInFunc();
+    // this.signInFunc();
     // this.storeCurrentSessionID();
     // console.log("Subscribing to keep alive processed");
     // this.$store.dispatch("subscribeToTopic", {
@@ -54,19 +53,6 @@ export default {
     // this.$store.dispatch("getAllDeliboLocations");
   },
   methods: {
-    async signInFunc() {
-      try {
-        const username = "deepak";
-        const password = "Deepak@2024";
-
-        const { isSignedIn, nextStep } = await signIn({ username, password });
-        console.log(isSignedIn);
-        console.log(nextStep);
-      } catch (error) {
-        console.log("error signing in", error);
-      }
-    },
-
     myFunction() {
       window.scrollTo({
         top: 0,

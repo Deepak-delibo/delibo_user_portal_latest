@@ -22,7 +22,7 @@ const accessToken = localStorage.getItem(
 );
 
 const api = axios.create({
-  baseURL: "https://m3ljlj1ho5.execute-api.ap-south-1.amazonaws.com/test/",
+  baseURL: "https://m3ljlj1ho5.execute-api.ap-south-1.amazonaws.com/dev/",
   headers: {
     Authorization: accessToken,
   },
