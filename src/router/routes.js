@@ -3,7 +3,10 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: true } }
+      { path: '', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } },
+      { path: '/dashboard', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } },
+      { path: '/permission', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } },
+      { path: '/booking', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } }
     ]
   },
   {

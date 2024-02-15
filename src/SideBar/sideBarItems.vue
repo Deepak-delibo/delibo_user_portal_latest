@@ -1,20 +1,18 @@
 <template>
   <div>
-    <q-item
+    <q-item class="q-mx-md q-my-sm"
       clickable
-      tag="a"
-      target="_blank"
-      :href="item.path"
       v-for="item in actual_side_bar"
       :key="item.path"
-      :exact-active-class="['active-item', 'bg-primary']"
+      :class="{ 'red--text': isActiveItem(item.path) }"
+      @click="navigateTo(item.path)"
     >
-      <q-item-section v-if="item.icon" avatar>
+      <q-item-section v-if="item.icon" avatar class="q-mx-none q-px-none q-py-none">
         <q-icon :name="item.icon" />
       </q-item-section>
 
       <q-item-section>
-        <q-item-label>{{ item.title }}</q-item-label>
+        <q-item-label class="text-subtitle1">{{ item.title }}</q-item-label>
         <q-item-label caption>{{ item.caption }}</q-item-label>
       </q-item-section>
     </q-item>
@@ -25,7 +23,6 @@
 import ApiServices from "./../SideBar/accessControl";
 
 export default {
-  // props: ["sidebarItems"],
   data() {
     return {
       actual_side_bar: [],
@@ -33,27 +30,19 @@ export default {
       sidebarItems: [
         {
           title: "DashBoard",
-          path: "/adminDashboard",
+          path: "/dashboard",
+          icon:"dashboard"
+
         },
         {
-          title: "Caller Dashboard",
-          path: "/callerDashboard",
+          title: "Permission",
+          path: "/permission",
+          icon:"key"
         },
         {
-          title: "My Attendance",
-          path: "/call",
-        },
-        {
-          title: "Settings",
-          path: "/course",
-        },
-        {
-          title: "MobilePage",
-          path: "/mobilePage",
-        },
-        {
-          title: "Leads",
-          path: "/leadDetails",
+          title: "Booking",
+          path: "/booking",
+          icon:"bookmarks"
         },
       ],
     };
@@ -77,21 +66,20 @@ export default {
   },
   methods: {
     checkAllowedSidebarItems() {
-      console.log("find all adafjkdjfksdjk", this.sidebarItems);
-      this.actual_side_bar = [];
-      for (let i = 0; i < this.sidebarItems.length; i++) {
-        const element = this.sidebarItems[i];
-        if (ApiServices.checkSideBarItems(element.title)) {
-          this.actual_side_bar.push(element);
-        }
-      }
+      this.actual_side_bar = this.sidebarItems.filter(item =>
+        ApiServices.checkSideBarItems(item.title)
+      );
+    },
+    navigateTo(path) {
+      this.$router.push(path);
+    },
+    isActiveItem(path) {
+      return this.$route.path === path;
     },
     updateOnlineStatus() {
       this.isOnline = navigator.onLine;
       console.log("check internet connection", this.isOnline);
-      if (this.isOnline) {
-        this.$router.push("/adminDashboard");
-      } else {
+      if (!this.isOnline) {
         this.$router.push("/nointernet");
       }
     },
@@ -99,20 +87,27 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .red--text {
-  background: #fe4a55;
+  background: #EF9105;
   border-radius: 4px;
-  color: #c41515;
-  font-family: "Work Sans";
+  color: #fff;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 20px;
+  line-height: 10px;
 }
 .active-item {
   /* Define your active item styles here */
   background-color: #2a4365; /* Example background color */
   color: #ffffff; /* Example text color */
+}
+.q-item__section--avatar{
+  min-width: 34px !important;
+
+}
+.q-item {
+    min-height: 28px !important;
+    padding-block: 5px !important;
 }
 </style>

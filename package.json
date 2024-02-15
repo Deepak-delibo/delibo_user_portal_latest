@@ -21,10 +21,12 @@
     "aws-amplify-vue": "^2.1.9",
     "aws-sdk": "^2.1554.0",
     "axios": "^1.2.1",
+    "echarts": "^5.4.3",
     "quasar": "^2.6.0",
     "temp": "^0.8.4",
     "uuid": "^9.0.1",
     "vue": "^3.0.0",
+    "vue-echarts": "^6.6.8",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.1"
   },

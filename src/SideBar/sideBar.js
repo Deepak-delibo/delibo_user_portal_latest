@@ -4,7 +4,7 @@ export default [
       path: "/adminDashboard",
   },
   {
-      title: "Caller Dashboard",
+      title: "",
       path: "/callerDashboard",
   },
   {
