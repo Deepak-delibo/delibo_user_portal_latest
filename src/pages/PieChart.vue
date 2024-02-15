@@ -1,29 +1,6 @@
-<!-- <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
-  </q-page>
-</template>
 
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IndexPage'
-})
-</script> -->
 <template>
-  <div class="row">
-    <div class="col-12 col-md-6">
-      <v-chart class="chart" :option="option" autoresize />
-    </div>
-    <div class="col-12 col-md-6">
-      <v-chart class="chart" :option="option" autoresize />
-    </div>
-  </div>
+  <v-chart class="chart q-pt-md q-px-sm" :option="option" autoresize />
 </template>
 
 <script setup>
@@ -51,22 +28,22 @@ use([
 // Define the option data
 const option = ref({
   title: {
-    text: "Traffic Sources",
-    left: "center",
+    text: "Delibo Sources",
+    left: "start",
   },
   tooltip: {
     trigger: "item",
     formatter: "{a} <br/>{b} : {c} ({d}%)",
   },
   legend: {
-    orient: 'horizontal',
+    orient: "horizontal",
     bottom: 15,
-    left: 'center',
-    data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines'],
+    left: "center",
+    data: ["Ad Networks", "Video Ads", "Search Engines"],
   },
   series: [
     {
-      name: "Traffic Sources",
+      name: "Delibo Sources",
       type: "pie",
       radius: "55%",
       center: ["50%", "47%"],
@@ -74,8 +51,6 @@ const option = ref({
         distanceToLabelLine: 5, // Adjust the distance here (in pixels)
       },
       data: [
-        { value: 335, name: "Direct" },
-        { value: 310, name: "Email" },
         { value: 234, name: "Ad Networks" },
         { value: 135, name: "Video Ads" },
         { value: 1548, name: "Search Engines" },

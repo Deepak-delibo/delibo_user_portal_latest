@@ -3,10 +3,10 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } },
-      { path: '/dashboard', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } },
-      { path: '/permission', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } },
-      { path: '/booking', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: false } }
+      { path: '', component: () => import('src/pages/PieChart.vue'), meta: { requiresAuth: false } },
+      { path: '/dashboard',name:"Dashboard", component: () => import('pages/DashboardPage.vue'), meta: { requiresAuth: false } },
+      { path: '/permission',name:"Permission", component: () => import('pages/PermissionPage.vue'), meta: { requiresAuth: false } },
+      { path: '/booking',name:"Booking", component: () => import('pages/BookingPage.vue'), meta: { requiresAuth: false } }
     ]
   },
   {

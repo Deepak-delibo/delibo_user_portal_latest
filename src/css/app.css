@@ -6,162 +6,181 @@
   font-style: normal;
   font-display: block;
 }
-body{
-   font-family: "rubik";
+
+body {
+  font-family: "rubik";
   font-style: normal;
   font-weight: 500;
+  overflow-x: hidden;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px white inset;
-    -webkit-text-fill-color: #333;
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-text-fill-color: #333;
 }
 
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px white inset;
-    -webkit-text-fill-color: #333;
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-text-fill-color: #333;
 }
 
 /* Input container */
 .input-container {
-    padding: 0px 8px !important;
+  padding: 0px 8px !important;
 }
 
 .input-container input[type="text"] {
-    background: transparent !important;
-    border: none !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .input-container .textInput {
-    width: 100% !important;
+  width: 100% !important;
 
 }
+
 .input-container label {
-    margin-top: 4px !important;
+  margin-top: 4px !important;
 }
+
 .input-container .q-field__control {
-    height: auto !important;
-    padding: 0 5px !important;
+  height: auto !important;
+  padding: 0 5px !important;
 }
 
 .input-container .q-field__control:hover:before {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
+
 .input-container .q-field__control:before {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
+
 .input-container .q-field--filled.q--field--highlighted .q-field__control:before {
-    opacity: 0 !important;
-    background: rgba(255, 0, 0) !important;
+  opacity: 0 !important;
+  background: rgba(255, 0, 0) !important;
 }
 
 .input-container .q-field__native,
 .input-container .q-field__prefix {
-    font-family: Rubik, sans-serif;
-    font-size: 15px !important;
-    text-align: left;
-    font-weight: 400;
+  font-family: Rubik, sans-serif;
+  font-size: 15px !important;
+  text-align: left;
+  font-weight: 400;
 }
 
 /* Select Input container */
 .select-input-container {
-    padding: 0px 8px !important;
+  padding: 0px 8px !important;
 }
 
 .select-input-container input[type="text"] {
-    background: transparent !important;
-    border: none !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .select-input-container .selectInput {
-    width: 100% !important;
+  width: 100% !important;
 }
+
 .select-input-container label {
-    margin-top: 4px !important;
+  margin-top: 4px !important;
 }
+
 .select-input-container .q-field__control {
-    height: auto !important;
-    padding: 0 5px !important;
+  height: auto !important;
+  padding: 0 5px !important;
 }
 
 .select-input-container .q-field__control:hover:before {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
+
 .select-input-container .q-field__control:before {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
+
 .select-input-container .q-field--filled.q--field--highlighted .q-field__control:before {
-    opacity: 0 !important;
-    background: rgba(255, 0, 0) !important;
+  opacity: 0 !important;
+  background: rgba(255, 0, 0) !important;
 }
 
 .select-input-container .q-field__native,
 .select-input-container .q-field__prefix {
-    font-family: Rubik, sans-serif;
-    font-size: 15px !important;
-    text-align: left;
-    font-weight: 400;
+  font-family: Rubik, sans-serif;
+  font-size: 15px !important;
+  text-align: left;
+  font-weight: 400;
 }
 
 /* Multiline input container */
 .multiline-input-container {
-    overflow: auto !important;
+  overflow: auto !important;
 }
 
 .multiline-input-container input [type="text"] {
-    background: transparent !important;
-    border: none !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .multiline-input-container .multiLineInput {
-    width: 100% !important;
+  width: 100% !important;
 }
+
 .multiline-input-container label {
-    margin-top: -2px !important;
+  margin-top: -2px !important;
 }
+
 .multiline-input-container .q-field__control {
-    height: auto !important;
-    padding: 0 0px !important;
+  height: auto !important;
+  padding: 0 0px !important;
 }
 
 .multiline-input-container .q-field__control:hover:before {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
+
 .multiline-input-container .q-field__control:before {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
+
 .multiline-input-container .q-field--filled.q--field--highlighted .q-field__control:before {
-    opacity: 0 !important;
-    background: rgba(255, 0, 0) !important;
+  opacity: 0 !important;
+  background: rgba(255, 0, 0) !important;
 }
 
 .multiline-input-container .q-textarea .q-field__native {
-    padding: 0px !important;
-    font-family: Rubik, sans-serif;
-    font-size: 15px;
-    line-height: 1;
-    text-align: left;
-    font-weight: 400;
+  padding: 0px !important;
+  font-family: Rubik, sans-serif;
+  font-size: 15px;
+  line-height: 1;
+  text-align: left;
+  font-weight: 400;
 }
 
 /* Focus button on tab press */
 .buttonFocused {
-    border-color: #1c1c1e;
+  border-color: #1c1c1e;
 }
 
 /* Side pane containier */
 .sidepane-container {
   z-index: 1;
+}
+
+.q-btn {
+  font-weight: 400 !important;
+  text-transform: capitalize !important;
 }

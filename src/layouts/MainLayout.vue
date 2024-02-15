@@ -21,8 +21,23 @@
           icon="chevron_left"
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title class="text-primary text-weight-bold"></q-toolbar-title>
-        <q-space />
+        <q-toolbar-title class="text-primary text-weight-bold">{{
+          active_route
+        }}</q-toolbar-title>
+        <div>
+          <q-btn
+            dense
+            color="primary"
+            round
+            icon="notifications"
+            class="q-mx-sm"
+          >
+            <q-badge color="red" floating>4</q-badge>
+          </q-btn>
+          <q-btn flat >
+            <q-avatar color="primary" text-color="white">J</q-avatar>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -67,25 +82,26 @@
             </q-card-actions>
           </q-card>
         </q-dialog>
-       <div class="main_container">
-        <router-view />
-       </div>
+        <div class="main_container">
+          <router-view />
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import sideBarItems from "../SideBar/sideBarItems.vue";
 import BarLists from "../SideBar/sideBar.js";
-// Icons from https://fonts.google.com/icons?icon.set=Material+Icons
+import { useRoute } from "vue-router";
 
 export default {
   name: "MainLayout",
   setup() {
     const leftDrawerOpen = ref(false);
     const confirmLogout = ref(false);
+    const active_route = ref(null);
     const sideBardata = ref([
       {
         title: "DashBoard",
@@ -112,7 +128,7 @@ export default {
         path: "/leadDetails",
       },
     ]);
-
+    const route = useRoute();
     const toggleLeftDrawer = () => {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     };
@@ -125,11 +141,19 @@ export default {
     onMounted(() => {
       // Assign sidebar data from BarLists to sideBardata
       sideBardata.value = BarLists;
+      active_route.value = route.name;
+      console.log("jfkdkjfdkfjs", route.name);
     });
-
+    watch(
+      () => route.name,
+      (newValue, oldValue) => {
+        active_route.value = newValue;
+      }
+    );
     return {
       leftDrawerOpen,
       confirmLogout,
+      active_route,
       sideBardata,
       toggleLeftDrawer,
       logout,
@@ -145,7 +169,11 @@ export default {
 .logout-dialog {
   width: 350px;
 }
-.main_container{
+.main_container {
+  min-height: 86vh;
   margin-top: 50px;
+  padding: 20px;
+  background: #ffffff;
+  object-fit: fill;
 }
 </style>
