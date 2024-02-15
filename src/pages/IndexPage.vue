@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <q-page class="flex flex-center">
     <img
       alt="Quasar logo"
@@ -14,4 +14,86 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'IndexPage'
 })
+</script> -->
+<template>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <v-chart class="chart" :option="option" autoresize />
+    </div>
+    <div class="col-12 col-md-6">
+      <v-chart class="chart" :option="option" autoresize />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from "echarts/components";
+import VChart, { THEME_KEY } from "vue-echarts";
+import { ref, provide } from "vue";
+use([
+  CanvasRenderer,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+]);
+
+// Provide the theme globally
+// provide(THEME_KEY, 'dark');
+
+// Define the option data
+const option = ref({
+  title: {
+    text: "Traffic Sources",
+    left: "center",
+  },
+  tooltip: {
+    trigger: "item",
+    formatter: "{a} <br/>{b} : {c} ({d}%)",
+  },
+  legend: {
+    orient: 'horizontal',
+    bottom: 15,
+    left: 'center',
+    data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines'],
+  },
+  series: [
+    {
+      name: "Traffic Sources",
+      type: "pie",
+      radius: "55%",
+      center: ["50%", "47%"],
+      label: {
+        distanceToLabelLine: 5, // Adjust the distance here (in pixels)
+      },
+      data: [
+        { value: 335, name: "Direct" },
+        { value: 310, name: "Email" },
+        { value: 234, name: "Ad Networks" },
+        { value: 135, name: "Video Ads" },
+        { value: 1548, name: "Search Engines" },
+      ],
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: "rgba(0, 0, 0, 0.5)",
+        },
+      },
+    },
+  ],
+});
 </script>
+
+<style scoped>
+.chart {
+  height: 400px;
+}
+</style>

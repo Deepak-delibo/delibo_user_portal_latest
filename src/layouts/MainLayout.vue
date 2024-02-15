@@ -10,8 +10,8 @@
           class="text-primary"
           icon="menu"
           aria-label="Menu"
+          @click="toggleLeftDrawer"
         />
-        <!-- @click="toggleLeftDrawer" -->
         <q-btn
           v-else
           dense
@@ -19,11 +19,9 @@
           unelevated
           color="primary"
           icon="chevron_left"
+          @click="toggleLeftDrawer"
         />
-        <!-- @click="toggleLeftDrawer" -->
-        <q-toolbar-title
-          class="text-primary text-weight-bold"
-        ></q-toolbar-title>
+        <q-toolbar-title class="text-primary text-weight-bold"></q-toolbar-title>
         <q-space />
       </q-toolbar>
     </q-header>
@@ -42,16 +40,12 @@
           DELIBO
         </div>
       </div>
-      <!-- <q-scroll-area class="fit"> -->
       <q-list>
-        <sideBarItems ></sideBarItems>
-        <!-- <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" /> -->
+        <sideBarItems :sideBardata="sideBardata" />
       </q-list>
-      <!-- </q-scroll-area> -->
     </q-drawer>
 
     <q-page-container>
-      <!-- :style="toggleLeftDrawer && !$q.screen.sm ? 'padding-left: 110px !important;' : ''" -->
       <q-page padding>
         <q-dialog v-model="confirmLogout" persistent width="350">
           <q-card class="logout-dialog">
@@ -73,125 +67,76 @@
             </q-card-actions>
           </q-card>
         </q-dialog>
+       <div class="main_container">
         <router-view />
+       </div>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { defineAsyncComponent } from "vue";
+import { ref, onMounted } from "vue";
 import sideBarItems from "../SideBar/sideBarItems.vue";
 import BarLists from "../SideBar/sideBar.js";
 // Icons from https://fonts.google.com/icons?icon.set=Material+Icons
-const linksList = [
-  {
-    title: "Dashboard",
-    path: "/",
-    icon: "dashboard",
-  },
-  {
-    title: "Super admin functions",
-    path: "/superadmin",
-    icon: "admin_panel_settings",
-  },
-  {
-    title: "Factory Config",
-    path: "/factoryconfig",
-    icon: "settings",
-  },
-  {
-    title: "HMI Warehouse",
-    path: "/hmiwarehouse",
-    icon: "storage",
-  },
-  {
-    title: "Create Location",
-    path: "/createlocation",
-    icon: "add_location",
-  },
-  {
-    title: "Manage Locations",
-    path: "/managelocations",
-    icon: "location_city",
-  },
-  {
-    title: "Test Delibo Locations",
-    path: "/testlocations",
-    icon: "location_on",
-  },
-  {
-    title: "Defaulted Delibos",
-    path: "/defaulteddelibos",
-    icon: "bento",
-  },
-  {
-    title: "Hidden Delibos",
-    path: "/hidden_delibo",
-    icon: "warning",
-  },
-  {
-    title: "CRM",
-    path: "/crm",
-    icon: "people",
-  },
-  {
-    title: "Calendar",
-    path: "/calendar",
-    icon: "event",
-  },
-  // {
-  //   title: "FAQ",
-  //   path: "/faq",
-  //   icon: "warning",
-  // },
-];
 
 export default {
   name: "MainLayout",
-  data() {
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen: false,
-      confirmLogout: false,
-      DeliboLocationOptions: [],
-      sideBardata: [
-        {
-          title: "DashBoard",
-          path: "/adminDashboard",
-        },
-        {
-          title: "Caller Dashboard",
-          path: "/callerDashboard",
-        },
-        {
-          title: "My Attendance",
-          path: "/call",
-        },
-        {
-          title: "Settings",
-          path: "/course",
-        },
-        {
-          title: "MobilePage",
-          path: "/mobilePage",
-        },
-        {
-          title: "Leads",
-          path: "/leadDetails",
-        },
-      ],
+  setup() {
+    const leftDrawerOpen = ref(false);
+    const confirmLogout = ref(false);
+    const sideBardata = ref([
+      {
+        title: "DashBoard",
+        path: "/adminDashboard",
+      },
+      {
+        title: "Caller Dashboard",
+        path: "/callerDashboard",
+      },
+      {
+        title: "My Attendance",
+        path: "/call",
+      },
+      {
+        title: "Settings",
+        path: "/course",
+      },
+      {
+        title: "MobilePage",
+        path: "/mobilePage",
+      },
+      {
+        title: "Leads",
+        path: "/leadDetails",
+      },
+    ]);
+
+    const toggleLeftDrawer = () => {
+      leftDrawerOpen.value = !leftDrawerOpen.value;
     };
-  },
-  mounted() {
-    // Assign sidebar data from BarLists to sideBardata
-    this.sideBardata = BarLists;
+
+    const logout = () => {
+      // Implement logout logic
+      console.log("Logout");
+    };
+
+    onMounted(() => {
+      // Assign sidebar data from BarLists to sideBardata
+      sideBardata.value = BarLists;
+    });
+
+    return {
+      leftDrawerOpen,
+      confirmLogout,
+      sideBardata,
+      toggleLeftDrawer,
+      logout,
+    };
   },
   components: {
     sideBarItems,
-    // EssentialLink: defineAsyncComponent(() =>
-    //   import("components/EssentialLink.vue")
-    // ),
   },
 };
 </script>
@@ -199,5 +144,8 @@ export default {
 <style scoped>
 .logout-dialog {
   width: 350px;
+}
+.main_container{
+  margin-top: 50px;
 }
 </style>
