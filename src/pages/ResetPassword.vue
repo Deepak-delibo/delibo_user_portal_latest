@@ -16,6 +16,7 @@
         <q-input
           filled
           v-model="password"
+          dense
           class="q-mt-md"
           label="Password *"
           :type="showPassword ? 'text' : 'password'"
@@ -41,6 +42,7 @@
           filled
           v-model="confirmPassword"
           class="q-mt-md"
+          dense
           label="Confirm Password *"
           :type="showConfirmPassword ? 'text' : 'password'"
           autocomplete="current-password"

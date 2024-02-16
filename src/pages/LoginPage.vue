@@ -13,11 +13,12 @@
       </div>
       <q-form @submit="onSubmit" @reset="onReset" class="pt-2">
         <q-input
-          filled
+        outlined
           v-model="name"
           label="Username*"
           autocomplete="Username"
           lazy-rules
+          dense
           :rules="[
             (val) =>
               (val && val.length >= 6) ||
@@ -28,13 +29,14 @@
           ]"
         />
         <q-input
-          filled
+        outlined
           v-model="password"
           class="q-mt-md"
           label="Password *"
           :type="showPassword ? 'text' : 'password'"
           autocomplete="current-password"
           lazy-rules
+          dense
           :rules="[
             (val) =>
               (val && val.length >= 8) ||

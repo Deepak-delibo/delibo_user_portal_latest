@@ -184,3 +184,6 @@ textarea:-webkit-autofill:focus {
   font-weight: 400 !important;
   text-transform: capitalize !important;
 }
+::-webkit-scrollbar {
+  display: none;
+}

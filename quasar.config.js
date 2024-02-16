@@ -30,6 +30,7 @@ module.exports = configure(function (/* ctx */) {
     boot: [
       "axios",
       "amplify",
+      "bus"
       // 'v-shared-element',
       // 'gmaps'
     ],

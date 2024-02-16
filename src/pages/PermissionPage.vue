@@ -7,72 +7,436 @@
       :options="options"
       class="text-capitalize"
     />
-    <q-btn color="primary" icon="add" :label="dialog_name" size="md" @click="bar2 = true"/>
+    <q-btn
+      color="primary"
+      icon="add"
+      :label="dialog_name"
+      size="md"
+      @click="bar2 = true"
+    />
   </div>
-  <q-dialog
-      v-model="bar2"
-      persistent
-      :maximized="maximizedToggle"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card class="">
-        <div class="flex align-center bg-primary text-white q-px-sm">
-          <p class="text-h5 q-mt-sm">Add {{ dialog_name }}</p>
-          <q-space />
-          <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-            <q-tooltip v-if="maximizedToggle" class="bg-white text-primary">Minimize</q-tooltip>
-          </q-btn>
-          <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
-            <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary">Maximize</q-tooltip>
-          </q-btn>
-          <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
+  <div class="row q-mt-sm q-col-gutter-xs">
+    <div class="col-12 col-md-4 col-lg-4">
+      <q-input
+        v-model="search_input_value"
+        debounce="500"
+        dense
+        outlined
+        placeholder="Search"
+        label="Search"
+      />
+    </div>
+    <div class="col-12 col-md-4 col-lg-4">
+      <q-select
+        outlined
+        dense
+        v-model="model"
+        :options="selectOptions"
+        label="City"
+      />
+    </div>
+    <div class="col-12 col-md-4 col-lg-4">
+      <q-select
+        outlined
+        dense
+        v-model="model"
+        :options="selectOptions"
+        label="Delibo Name"
+      />
+    </div>
+  </div>
+  <PermissionTable
+    :tableData="rows"
+    @viewDetails="handleViewDetails"
+  ></PermissionTable>
+  <div class="q-py-md flex flex-center" v-if="!$q.screen.lt.sm">
+    <q-pagination
+      v-model="current"
+      max="205"
+      direction-links
+      outline
+      :max-pages="8"
+      boundary-numbers
+    />
+  </div>
+  <div class="q-py-md flex flex-center" v-if="$q.screen.lt.sm">
+    <q-pagination
+      v-model="current"
+      max="205"
+      direction-links
+      outline
+      :max-pages="4"
+      boundary-numbers
+    />
+  </div>
+  <q-dialog v-model="bar2" persistent full-width>
+    <q-card class="q-px-none">
+      <div
+        class="flex align-center bg-primary text-white q-px-sm"
+        style="overflow-x: hidden"
+      >
+        <p class="text-bold q-mt-sm">Add {{ dialog_name }}</p>
+        <q-space />
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </div>
+
+      <q-card-section class="q-px-none">
+        <div>
+          <q-form @submit="onSubmit" @reset="onReset">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-4">
+                <q-input
+                  outlined
+                  class="q-py-md q-px-sm"
+                  v-model="firstName"
+                  label="Your First Name *"
+                  lazy-rules
+                  :readonly="showViewData"
+                  dense
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                />
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <q-input
+                  outlined
+                  class="q-py-md q-px-sm"
+                  v-model="lastName"
+                  label="Your Last Name *"
+                  lazy-rules
+                  :readonly="showViewData"
+                  dense
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                />
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <q-input
+                  outlined
+                  v-model="assignDelibo"
+                  class="q-py-md q-px-sm"
+                  label="Assign Delibo*"
+                  lazy-rules
+                  :readonly="showViewData"
+                  dense
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                />
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <q-input
+                  outlined
+                  v-model="assignCity"
+                  label="Your name *"
+                  class="q-py-md q-px-sm"
+                  lazy-rules
+                  dense
+                  :readonly="showViewData"
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                />
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <q-input
+                  outlined
+                  v-model="mobile"
+                  label="Your mobile *"
+                  lazy-rules
+                  dense
+                  :readonly="showViewData"
+                  class="q-py-md q-px-sm"
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                />
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <q-input
+                  outlined
+                  v-model="email"
+                  label="Your email *"
+                  class="q-py-md q-px-sm"
+                  lazy-rules
+                  :readonly="showViewData"
+                  dense
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                />
+              </div>
+            </div>
+            <div class="q-py-md q-px-sm" v-if="!showViewData">
+              <q-btn label="Submit" type="submit" color="primary" />
+              <q-btn
+                label="Reset"
+                type="reset"
+                color="primary"
+                flat
+                class="q-ml-sm"
+              />
+            </div>
+          </q-form>
         </div>
-
-
-        <q-card-section class="q-pt-none">
-          <div>
-
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
-import { ref, computed,watch } from 'vue'
-
+import { ref, computed, watch, onMounted } from "vue";
+import PermissionTable from "./PermissionTable.vue";
+import { inject } from "vue";
+import Swal from "sweetalert2";
 export default {
-  setup () {
-    const bar2 =  ref(false);
-    const add_role = ref('fm')
-    const dialog_name = ref("Facility Manager")
+  components: {
+    PermissionTable,
+  },
+  setup() {
+    const showViewData = ref(false);
+    const bus = inject("bus");
+    const rows = ref([
+      {
+        firstName: "John",
+        lastName: "Doe",
+        userName: "johndoe",
+        password: "password123",
+        assignCity: "New York",
+        assignDelibo: "Delhi",
+        mobile: "1234567890",
+        email: "john@example.com",
+      },
+      {
+        firstName: "Alice",
+        lastName: "Smith",
+        userName: "alicesmith",
+        password: "alicepassword",
+        assignCity: "Los Angeles",
+        assignDelibo: "Tokyo",
+        mobile: "9876543210",
+        email: "alice@example.com",
+      },
+      {
+        firstName: "John",
+        lastName: "Doe",
+        userName: "johndoe",
+        password: "password123",
+        assignCity: "New York",
+        assignDelibo: "Delhi",
+        mobile: "1234567890",
+        email: "john@example.com",
+      },
+      {
+        firstName: "Alice",
+        lastName: "Smith",
+        userName: "alicesmith",
+        password: "alicepassword",
+        assignCity: "Los Angeles",
+        assignDelibo: "Tokyo",
+        mobile: "9876543210",
+        email: "alice@example.com",
+      },
+      {
+        firstName: "John",
+        lastName: "Doe",
+        userName: "johndoe",
+        password: "password123",
+        assignCity: "New York",
+        assignDelibo: "Delhi",
+        mobile: "1234567890",
+        email: "john@example.com",
+      },
+      {
+        firstName: "Alice",
+        lastName: "Smith",
+        userName: "alicesmith",
+        password: "alicepassword",
+        assignCity: "Los Angeles",
+        assignDelibo: "Tokyo",
+        mobile: "9876543210",
+        email: "alice@example.com",
+      },
+      {
+        firstName: "John",
+        lastName: "Doe",
+        userName: "johndoe",
+        password: "password123",
+        assignCity: "New York",
+        assignDelibo: "Delhi",
+        mobile: "1234567890",
+        email: "john@example.com",
+      },
+      {
+        firstName: "Alice",
+        lastName: "Smith",
+        userName: "alicesmith",
+        password: "alicepassword",
+        assignCity: "Los Angeles",
+        assignDelibo: "Tokyo",
+        mobile: "9876543210",
+        email: "alice@example.com",
+      },
+      {
+        firstName: "John",
+        lastName: "Doe",
+        userName: "johndoe",
+        password: "password123",
+        assignCity: "New York",
+        assignDelibo: "Delhi",
+        mobile: "1234567890",
+        email: "john@example.com",
+      },
+      {
+        firstName: "Alice",
+        lastName: "Smith",
+        userName: "alicesmith",
+        password: "alicepassword",
+        assignCity: "Los Angeles",
+        assignDelibo: "Tokyo",
+        mobile: "9876543210",
+        email: "alice@example.com",
+      },
+      {
+        firstName: "John",
+        lastName: "Doe",
+        userName: "johndoe",
+        password: "password123",
+        assignCity: "New York",
+        assignDelibo: "Delhi",
+        mobile: "1234567890",
+        email: "john@example.com",
+      },
+      {
+        firstName: "Alice",
+        lastName: "Smith",
+        userName: "alicesmith",
+        password: "alicepassword",
+        assignCity: "Los Angeles",
+        assignDelibo: "Tokyo",
+        mobile: "9876543210",
+        email: "alice@example.com",
+      },
+    ]);
+
+    const bar2 = ref(false);
+    const add_role = ref("fm");
+    const dialog_name = ref("Facility Manager");
     const options = computed(() => [
-      {label: 'Facility Manager', value: 'fm'},
-      {label: 'Feild Agent', value: 'fa'},
-    ])
+      { label: "Facility Manager", value: "fm" },
+      { label: "Feild Agent", value: "fa" },
+    ]);
+    onMounted(() => {
+      // Listen to the 'countChanged' event
+      search_input_value.value = null;
+      bus.on("countChanged", (data) => {
+        console.log("afkjakfdjlak", data);
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#EF9105",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          console.log("dfijdkjkdjlsfdls", result);
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your Data has been deleted.",
+              icon: "success",
+              confirmButtonColor: "#EF9105",
+            });
+          }
+        });
+      });
+    });
+    const search_input_value = ref(null);
+
+    const firstName = ref(null);
+    const lastName = ref(null);
+    const assignCity = ref(null);
+    const assignDelibo = ref(null);
+    const mobile = ref(null);
+    const email = ref(null);
+    const accept = ref(false);
     watch(
       () => add_role.value,
       (newValue) => {
-        if(newValue == "fa"){
-          dialog_name.value = "Feild Agent"
-        }else{
-          dialog_name.value = "Facility Manager"
+        if (newValue == "fa") {
+          dialog_name.value = "Feild Agent";
+        } else {
+          dialog_name.value = "Facility Manager";
         }
       }
     );
+    watch(
+      () => search_input_value.value,
+      (value) => {
+        if (value !== null) {
+          console.log("jdflkjfdlsdfajl", value);
+          alert("dfkjfkdjfksjlafjsdalk");
+        }
+      }
+    );
+
+    const handleViewDetails = (data) => {
+      console.log("dkjkdjfkds", data);
+      showViewData.value = true;
+      firstName.value = data.firstName;
+      lastName.value = data.lastName;
+      assignCity.value = data.assignCity;
+      mobile.value = data.mobile;
+      email.value = data.email;
+      bar2.value = true;
+    };
     return {
+      showViewData,
+      current: ref(3),
+      search_input_value,
       add_role,
+      firstName,
+      lastName,
+      assignCity,
+      assignDelibo,
       dialog_name,
+      mobile,
+      email,
+      rows,
       bar2,
       options,
-      maximizedToggle: ref(false)
+      maximizedToggle: ref(false),
+      accept,
+      handleViewDetails,
+      model: ref(null),
+      selectOptions: ["Chennai", "Hyderabad", "Delhi", "Mumbai"],
+      onSubmit() {
+        if (accept.value !== true) {
+          $q.notify({
+            color: "red-5",
+            textColor: "white",
+            icon: "warning",
+            message: "You need to accept the license and terms first",
+          });
+        } else {
+          $q.notify({
+            color: "green-4",
+            textColor: "white",
+            icon: "cloud_done",
+            message: "Submitted",
+          });
+        }
+      },
 
-    }
-  }
-}
+      onReset() {},
+    };
+  },
+};
 </script>
 
 <style scoped>
