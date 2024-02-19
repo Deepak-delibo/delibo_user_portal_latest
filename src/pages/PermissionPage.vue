@@ -36,13 +36,47 @@
       />
     </div>
     <div class="col-12 col-md-4 col-lg-4">
-      <q-select
+      <!-- <q-select
         outlined
         dense
+        multiple
+        use-chips
         v-model="model"
         :options="selectOptions"
         label="Delibo Name"
-      />
+      /> -->
+      <q-select
+        v-model="parentCategory"
+        use-input
+        multiple
+        outlined
+        dense
+        label="Parent Category"
+        :options="businessCategoriesToSelect"
+        :option-label="
+          (opt) => (Object(opt) === opt && 'title' in opt ? opt.title : null)
+        "
+        :option-value="
+          (opt) => (Object(opt) === opt && '@id' in opt ? opt['@id'] : null)
+        "
+        :display-value="
+          parentCategory.length <= 2
+            ? parentCategory.map((item) => item.title).join(', ')
+            : `${parentCategory
+                .slice(0, 2)
+                .map((item) => item.title)
+                .join(', ')} (+${parentCategory.length - 2} others)`
+        "
+        map-options
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No Business Categories Found
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
     </div>
   </div>
   <PermissionTable
@@ -193,6 +227,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import PermissionTable from "./PermissionTable.vue";
 import { inject } from "vue";
 import Swal from "sweetalert2";
+import { Loading } from "quasar";
 export default {
   components: {
     PermissionTable,
@@ -322,6 +357,45 @@ export default {
         email: "alice@example.com",
       },
     ]);
+    const parentCategory = ref([]);
+    const businessCategoriesToSelect = ref([
+      { "@id": "1", title: "Category 1" },
+      { "@id": "2", title: "Category 2" },
+      { "@id": "3", title: "Category 3" },
+      { "@id": "4", title: "Category 1" },
+      { "@id": "5", title: "Category 2" },
+      { "@id": "6", title: "Category 3" },
+      { "@id": "7", title: "Category 1" },
+      { "@id": "8", title: "Category 2" },
+      { "@id": "9", title: "Category 3" },
+      { "@id": "10", title: "Category 1" },
+      { "@id": "11", title: "Category 2" },
+      { "@id": "12", title: "Category 3" },
+      { "@id": "13", title: "Category 1" },
+      { "@id": "14", title: "Category 2" },
+      { "@id": "15", title: "Category 3" },
+      // Add more categories as needed
+    ]);
+    const formattedSelectedItems = computed(() => {
+      const selected = parentCategory.value;
+      if (selected.length <= 2) {
+        return selected.map((item) => item.title).join(", ");
+      } else {
+        return `${selected
+          .slice(0, 2)
+          .map((item) => item.title)
+          .join(", ")} (+${selected.length - 2} others)`;
+      }
+    });
+    const items = ref([
+      { title: "foo" },
+      { title: "bar" },
+      { title: "fizz" },
+      { title: "buzz" },
+      { title: "fizzbuzz" },
+      { title: "foobar" },
+    ]);
+    const value = ref([]);
 
     const bar2 = ref(false);
     const add_role = ref("fm");
@@ -332,6 +406,10 @@ export default {
     ]);
     onMounted(() => {
       // Listen to the 'countChanged' event
+      Loading.show();
+      setTimeout(() => {
+        Loading.hide();
+      }, 2000);
       search_input_value.value = null;
       bus.on("countChanged", (data) => {
         console.log("afkjakfdjlak", data);
@@ -399,6 +477,9 @@ export default {
       showViewData,
       current: ref(3),
       search_input_value,
+      parentCategory,
+      businessCategoriesToSelect,
+      formattedSelectedItems,
       add_role,
       firstName,
       lastName,
@@ -409,6 +490,8 @@ export default {
       email,
       rows,
       bar2,
+      items,
+      value,
       options,
       maximizedToggle: ref(false),
       accept,
