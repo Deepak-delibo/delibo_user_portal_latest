@@ -184,6 +184,14 @@ textarea:-webkit-autofill:focus {
   font-weight: 400 !important;
   text-transform: capitalize !important;
 }
+
 ::-webkit-scrollbar {
   display: none;
+}
+
+.swal2-toast-shown .swal2-container {
+  z-index: 99999 !important;
+}
+.swal2-title{
+  line-height: 23px !important;
 }

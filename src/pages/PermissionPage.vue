@@ -47,7 +47,6 @@
       /> -->
       <q-select
         v-model="parentCategory"
-        use-input
         multiple
         outlined
         dense
