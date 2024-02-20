@@ -1,136 +1,123 @@
 <template>
-  <div class="q-py-md" v-if="!$q.screen.lt.sm">
-    <q-markup-table class="my-sticky-column-table">
-      <thead>
-        <tr>
-          <th class="text-left">
-            <input class="" type="checkbox" v-model="selectAll" />
-          </th>
-          <th class="text-left">Booked Date</th>
-          <th class="text-left">Agent</th>
-          <th class="text-left">Customer</th>
-          <th class="text-left">Status</th>
-          <th class="text-left">Package ID</th>
-          <th class="text-left">Expiry Date</th>
-          <!-- <th class="text-left">Customer Contact</th> -->
-          <th class="text-left">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, index) in tableData" :key="index">
-          <td class="text-left">
-            <input type="checkbox" v-model="selectedRows" :value="row" />
-          </td>
-          <td class="text-left text-subtitle1">{{ row.date_booked }}</td>
-          <td class="text-left text-subtitle1">{{ row.agent }}</td>
-          <td class="text-left">{{ row.customer }}</td>
-          <td class="text-left">
-            <q-chip
-              v-if="row.status == 'active'"
-              outline
-              color="positive"
-              size="12px"
-              >Active</q-chip
-            >
-            <q-chip v-else outline color="negative" size="12px">Expired</q-chip>
-          </td>
-          <td class="text-left">{{ row.package_code }}</td>
-          <td class="text-left">{{ row.expiry_date }}</td>
-          <td class="text-left">
-            <div class="text-primary q-gutter-sm">
+  <div>
+    <div class="q-py-md" v-if="!$q.screen.lt.sm">
+      <q-markup-table class="my-sticky-column-table">
+        <thead>
+          <tr>
+            <th class="text-left">
+              <input class type="checkbox" v-model="selectAll" />
+            </th>
+            <th class="text-left">Booked Date</th>
+            <th class="text-left">Agent</th>
+            <th class="text-left">Customer</th>
+            <th class="text-left">Status</th>
+            <th class="text-left">Package ID</th>
+            <th class="text-left">Expiry Date</th>
+            <!-- <th class="text-left">Customer Contact</th> -->
+            <th class="text-left">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, index) in tableData" :key="index">
+            <td class="text-left">
+              <input type="checkbox" v-model="selectedRows" :value="row" />
+            </td>
+            <td class="text-left text-subtitle1">{{ row.date_booked }}</td>
+            <td class="text-left text-subtitle1">{{ row.agent }}</td>
+            <td class="text-left">{{ row.customer }}</td>
+            <td class="text-left">
+              <q-chip v-if="row.status == 'active'" outline color="positive" size="12px">Active</q-chip>
+              <q-chip v-else outline color="negative" size="12px">Expired</q-chip>
+            </td>
+            <td class="text-left">{{ row.package_code }}</td>
+            <td class="text-left">{{ row.expiry_date }}</td>
+            <td class="text-left">
+              <div class="text-primary q-gutter-sm">
+                <q-btn
+                  flat
+                  dense
+                  icon="print"
+                  color="primary"
+                  size="sm"
+                  @click="printPackageCode(row)"
+                >
+                  <q-tooltip
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >Print Package Code</q-tooltip>
+                </q-btn>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
+    <q-dialog v-model="show_qr_code" transition-show="scale" transition-hide="scale">
+      <div class="slider-container">
+        <q-card>
+          <QRCodeSlider :categories="qrCodesArray"></QRCodeSlider>
+        </q-card>
+      </div>
+    </q-dialog>
+    <div v-if="$q.screen.lt.sm">
+      <div class="q-mt-sm">
+        <q-checkbox v-model="selectAll" size="xs" />Select All
+      </div>
+      <q-card v-for="(row, index) in tableData" :key="index" class="q-my-sm">
+        <q-card-section>
+          <div class>
+            <div class="text-primary flex justify-end">
+              <input type="checkbox" v-model="selectedRows" :value="row" />
               <q-btn
                 flat
                 dense
                 icon="print"
-                color="primary"
                 size="sm"
+                color="primary"
                 @click="printPackageCode(row)"
               >
                 <q-tooltip
+                  size="sm"
                   transition-show="flip-right"
                   transition-hide="flip-left"
-                >
-                  Print Package Code
-                </q-tooltip>
+                >Print Package Code</q-tooltip>
               </q-btn>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </q-markup-table>
-  </div>
-  <q-dialog
-    v-model="show_qr_code"
-    transition-show="scale"
-    transition-hide="scale"
-  >
-    <div class="slider-container">
-      <q-card>
-        <QRCodeSlider :categories="qrCodesArray"></QRCodeSlider>
+            <!-- <div > <q-checkbox class="q-mx-none q-px-none" size="xs" v-model="selectedRows" :val="row" /><span class="text-bold">First Name</span> : {{ row.name }}</div> -->
+            <div>
+              <span class="text-bold q-pr-sm">Booked Date</span>
+              : &nbsp;
+              {{ row.date_booked }}
+            </div>
+            <div>
+              <span class="text-bold q-pr-sm">Agent</span>
+              : &nbsp;
+              {{ row.agent }}
+            </div>
+            <div>
+              <span class="text-bold q-pr-sm">Customer</span>
+              : &nbsp;
+              {{ row.customer }}
+            </div>
+            <div>
+              <span class="text-bold q-pr-sm">status</span>: &nbsp;
+              <q-chip v-if="row.status == 'active'" outline color="positive" size="12px">Active</q-chip>
+              <q-chip v-else outline color="negative" size="12px">Expired</q-chip>
+            </div>
+            <div>
+              <span class="text-bold q-pr-sm">Package ID</span>
+              :&nbsp;
+              {{ row.package_code }}
+            </div>
+            <div>
+              <span class="text-bold q-pr-sm">Expiry Date</span>
+              : &nbsp;
+              {{ row.expiry_date }}
+            </div>
+          </div>
+        </q-card-section>
       </q-card>
     </div>
-  </q-dialog>
-  <div v-if="$q.screen.lt.sm">
-    <div class="q-mt-sm">
-      <q-checkbox v-model="selectAll" size="xs" /> Select All
-    </div>
-    <q-card v-for="(row, index) in tableData" :key="index" class="q-my-sm">
-      <q-card-section>
-        <div class="">
-          <div class="text-primary flex justify-end">
-            <input type="checkbox" v-model="selectedRows" :value="row" />
-            <q-btn
-              flat
-              dense
-              icon="print"
-              size="sm"
-              color="primary"
-              @click="printPackageCode(row)"
-            >
-              <q-tooltip
-                size="sm"
-                transition-show="flip-right"
-                transition-hide="flip-left"
-              >
-                Print Package Code
-              </q-tooltip>
-            </q-btn>
-          </div>
-          <!-- <div > <q-checkbox class="q-mx-none q-px-none" size="xs" v-model="selectedRows" :val="row" /><span class="text-bold">First Name</span> : {{ row.name }}</div> -->
-          <div>
-            <span class="text-bold q-pr-sm">Booked Date</span>: &nbsp;
-            {{ row.date_booked }}
-          </div>
-          <div>
-            <span class="text-bold q-pr-sm">Agent</span>: &nbsp;
-            {{ row.agent }}
-          </div>
-          <div>
-            <span class="text-bold q-pr-sm">Customer</span>: &nbsp;
-            {{ row.customer }}
-          </div>
-          <div>
-            <span class="text-bold q-pr-sm">status</span>: &nbsp;
-            <q-chip
-              v-if="row.status == 'active'"
-              outline
-              color="positive"
-              size="12px"
-              >Active</q-chip
-            >
-            <q-chip v-else outline color="negative" size="12px">Expired</q-chip>
-          </div>
-          <div>
-            <span class="text-bold q-pr-sm">Package ID</span>:&nbsp;
-            {{ row.package_code }}
-          </div>
-          <div>
-            <span class="text-bold q-pr-sm">Expiry Date</span>: &nbsp;
-            {{ row.expiry_date }}
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
   </div>
 </template>
 
@@ -193,7 +180,7 @@ export default defineComponent({
           });
           console.log("fjdkfjlkdjf", qrCodesArray.value);
           show_qr_code.value = true;
-        } else if(selectedRows.value.length == 0) {
+        } else if (selectedRows.value.length == 0) {
           Swal.fire({
             icon: "error",
             title: "Please select the checkbox",

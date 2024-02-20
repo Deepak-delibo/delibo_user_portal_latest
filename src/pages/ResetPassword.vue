@@ -12,7 +12,6 @@
         <p class="text-primary">Smart Lockers, Smarter Living!</p>
       </div>
       <q-form @submit="onSubmit" @reset="onReset" class="pt-2">
-
         <q-input
           filled
           v-model="password"
@@ -98,8 +97,24 @@ export default {
       toggleConfirmPasswordVisibility,
       async onSubmit() {
         if (password.value === confirmPassword.value) {
-          const get_data = await ApiServices.resetUserPassword();
-          console.log("Passwords match",get_data);
+          const userName = localStorage.getItem("userName");
+          alert(userName);
+          try {
+            let inputData = {
+              Username:userName,
+              Password: confirmPassword.value,
+            };
+            console.log("userName", userName);
+            let apiPath = "orgResetPassword";
+            const get_data = await ApiServices.resetUserPassword({
+              inputData,
+              apiPath,
+            });
+            console.log("Passwords match", get_data);
+          } catch (error) {
+            console.log("Not login .........", error);
+          }
+
           // Proceed with your submit logic
         } else {
           console.log("Passwords do not match");

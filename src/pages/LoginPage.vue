@@ -13,7 +13,7 @@
       </div>
       <q-form @submit="onSubmit" @reset="onReset" class="pt-2">
         <q-input
-        outlined
+          outlined
           v-model="name"
           label="Username*"
           autocomplete="Username"
@@ -29,7 +29,7 @@
           ]"
         />
         <q-input
-        outlined
+          outlined
           v-model="password"
           class="q-mt-md"
           label="Password *"
@@ -107,7 +107,7 @@ export default {
           console.log(nextStep);
           localStorage.setItem("userName", name.value);
           if (
-            nextStep.signInStep == "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+            nextStep.signInStep == "NEW_PASSWORD_REQUIRED"
           ) {
             router.push({ name: "reset-password" });
           }

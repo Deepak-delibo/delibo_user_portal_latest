@@ -1,7 +1,21 @@
 <template>
-  <div class="flex justify-end ">
-    <q-btn color="primary" icon="print" label="Selected print Data" size="md" class="q-mr-sm" @click="SelectedShowQR"/>
-    <q-btn color="primary" icon="add" label="Create New Booking" size="md" @click="create_booking_dialog = true"/>
+  <div>
+    <div class="flex justify-end">
+    <q-btn
+      color="primary"
+      icon="print"
+      label="Selected print Data"
+      size="md"
+      class="q-mr-sm"
+      @click="SelectedShowQR"
+    />
+    <q-btn
+      color="primary"
+      icon="add"
+      label="Create New Booking"
+      size="md"
+      @click="create_booking_dialog = true"
+    />
   </div>
   <BookingTable :tableData="rows"></BookingTable>
   <div class="q-py-md flex flex-center" v-if="!$q.screen.lt.sm">
@@ -24,12 +38,9 @@
       boundary-numbers
     />
   </div>
-  <q-dialog v-model="create_booking_dialog" persistent  >
+  <q-dialog v-model="create_booking_dialog" persistent>
     <q-card class="q-px-none" style="width: 100vw;">
-      <div
-        class="flex align-center bg-primary text-white q-px-sm"
-        style="overflow-x: hidden"
-      >
+      <div class="flex align-center bg-primary text-white q-px-sm" style="overflow-x: hidden">
         <p class="text-bold q-mt-sm">Create New Booking</p>
         <q-space />
         <q-btn dense flat icon="close" v-close-popup>
@@ -149,6 +160,7 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+  </div>
 </template>
 
 <script>
@@ -156,12 +168,12 @@ import { ref } from "vue";
 import BookingTable from "./BookingTable.vue";
 import { inject } from "vue";
 export default {
-  emits: ['selectedShowQr'],
+  emits: ["selectedShowQr"],
   components: {
     BookingTable,
   },
   setup() {
-    const create_booking_dialog= ref(false)
+    const create_booking_dialog = ref(false);
     const bus = inject("bus");
     const current = ref(3);
     const rows = ref([
@@ -246,14 +258,14 @@ export default {
         expiry_date: "2021",
       },
     ]);
-    const SelectedShowQR =()=>{
-      bus.emit('selectedShowQr');
-    }
+    const SelectedShowQR = () => {
+      bus.emit("selectedShowQr");
+    };
     return {
       create_booking_dialog,
       rows,
       current,
-      SelectedShowQR
+      SelectedShowQR,
     };
   },
 };

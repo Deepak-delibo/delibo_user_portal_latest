@@ -17,10 +17,12 @@ axiosInstance.interceptors.request.use(
 );
 
 export default {
-  resetUserPassword() {
+  resetUserPassword(payload) {
     return new Promise((resolve, reject) => {
+      const { inputData, apiPath } = payload;
+
       axios
-        .post(`${baseURL}/`)
+        .post(`${baseURL}/${apiPath}`, inputData)
         .then((response) => {
           resolve(response.data);
         })

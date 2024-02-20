@@ -1,42 +1,31 @@
 <template>
-  <div class="text-capitalize flex justify-between">
-    <q-btn-toggle
-      v-model="add_role"
-      size="md"
-      toggle-color="primary"
-      :options="options"
-      class="text-capitalize"
-    />
-    <q-btn
-      color="primary"
-      icon="add"
-      :label="dialog_name"
-      size="md"
-      @click="bar2 = true"
-    />
-  </div>
-  <div class="row q-mt-sm q-col-gutter-xs">
-    <div class="col-12 col-md-4 col-lg-4">
-      <q-input
-        v-model="search_input_value"
-        debounce="500"
-        dense
-        outlined
-        placeholder="Search"
-        label="Search"
+  <div>
+    <div class="text-capitalize flex justify-between">
+      <q-btn-toggle
+        v-model="add_role"
+        size="md"
+        toggle-color="primary"
+        :options="options"
+        class="text-capitalize"
       />
+      <q-btn color="primary" icon="add" :label="dialog_name" size="md" @click="bar2 = true" />
     </div>
-    <div class="col-12 col-md-4 col-lg-4">
-      <q-select
-        outlined
-        dense
-        v-model="model"
-        :options="selectOptions"
-        label="City"
-      />
-    </div>
-    <div class="col-12 col-md-4 col-lg-4">
-      <!-- <q-select
+    <div class="row q-mt-sm q-col-gutter-xs">
+      <div class="col-12 col-md-4 col-lg-4">
+        <q-input
+          v-model="search_input_value"
+          debounce="500"
+          dense
+          outlined
+          placeholder="Search"
+          label="Search"
+        />
+      </div>
+      <div class="col-12 col-md-4 col-lg-4">
+        <q-select outlined dense v-model="model" :options="selectOptions" label="City" />
+      </div>
+      <div class="col-12 col-md-4 col-lg-4">
+        <!-- <q-select
         outlined
         dense
         multiple
@@ -44,21 +33,21 @@
         v-model="model"
         :options="selectOptions"
         label="Delibo Name"
-      /> -->
-      <q-select
-        v-model="parentCategory"
-        multiple
-        outlined
-        dense
-        label="Parent Category"
-        :options="businessCategoriesToSelect"
-        :option-label="
+        />-->
+        <q-select
+          v-model="parentCategory"
+          multiple
+          outlined
+          dense
+          label="Parent Category"
+          :options="businessCategoriesToSelect"
+          :option-label="
           (opt) => (Object(opt) === opt && 'title' in opt ? opt.title : null)
         "
-        :option-value="
+          :option-value="
           (opt) => (Object(opt) === opt && '@id' in opt ? opt['@id'] : null)
         "
-        :display-value="
+          :display-value="
           parentCategory.length <= 2
             ? parentCategory.map((item) => item.title).join(', ')
             : `${parentCategory
@@ -66,159 +55,146 @@
                 .map((item) => item.title)
                 .join(', ')} (+${parentCategory.length - 2} others)`
         "
-        map-options
-      >
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey">
-              No Business Categories Found
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-    </div>
-  </div>
-  <PermissionTable
-    :tableData="rows"
-    @viewDetails="handleViewDetails"
-  ></PermissionTable>
-  <div class="q-py-md flex flex-center" v-if="!$q.screen.lt.sm">
-    <q-pagination
-      v-model="current"
-      max="205"
-      direction-links
-      outline
-      :max-pages="8"
-      boundary-numbers
-    />
-  </div>
-  <div class="q-py-md flex flex-center" v-if="$q.screen.lt.sm">
-    <q-pagination
-      v-model="current"
-      max="205"
-      direction-links
-      outline
-      :max-pages="4"
-      boundary-numbers
-    />
-  </div>
-  <q-dialog v-model="bar2" persistent >
-    <q-card class="q-px-none" style="max-width: 80vw;">
-      <div
-        class="flex align-center bg-primary text-white q-px-sm"
-        style="overflow-x: hidden"
-      >
-        <p class="text-bold q-mt-sm">Add {{ dialog_name }}</p>
-        <q-space />
-        <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-        </q-btn>
+          map-options
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">No Business Categories Found</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
-
-      <q-card-section class="q-px-none">
-        <div>
-          <q-form @submit="onSubmit" @reset="onReset">
-            <div class="row">
-              <div class="col-12 col-md-6 col-lg-6">
-                <q-input
-                  outlined
-                  class="q-py-md q-px-sm"
-                  v-model="firstName"
-                  label="Your First Name *"
-                  lazy-rules
-                  :readonly="showViewData"
-                  dense
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
-                />
-              </div>
-              <div class="col-12 col-md-6 col-lg-6">
-                <q-input
-                  outlined
-                  class="q-py-md q-px-sm"
-                  v-model="lastName"
-                  label="Your Last Name *"
-                  lazy-rules
-                  :readonly="showViewData"
-                  dense
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
-                />
-              </div>
-              <div class="col-12 col-md-6 col-lg-6">
-                <q-input
-                  outlined
-                  v-model="assignDelibo"
-                  class="q-py-md q-px-sm"
-                  label="Assign Delibo*"
-                  lazy-rules
-                  :readonly="showViewData"
-                  dense
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
-                />
-              </div>
-              <div class="col-12 col-md-6 col-lg-6">
-                <q-input
-                  outlined
-                  v-model="assignCity"
-                  label="Your name *"
-                  class="q-py-md q-px-sm"
-                  lazy-rules
-                  dense
-                  :readonly="showViewData"
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
-                />
-              </div>
-              <div class="col-12 col-md-6 col-lg-6">
-                <q-input
-                  outlined
-                  v-model="mobile"
-                  label="Your mobile *"
-                  lazy-rules
-                  dense
-                  :readonly="showViewData"
-                  class="q-py-md q-px-sm"
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
-                />
-              </div>
-              <div class="col-12 col-md-6 col-lg-6">
-                <q-input
-                  outlined
-                  v-model="email"
-                  label="Your email *"
-                  class="q-py-md q-px-sm"
-                  lazy-rules
-                  :readonly="showViewData"
-                  dense
-                  :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
-                />
-              </div>
-            </div>
-            <div class="q-py-md q-px-sm" v-if="!showViewData">
-              <q-btn label="Submit" type="submit" color="primary" />
-              <q-btn
-                label="Reset"
-                type="reset"
-                color="primary"
-                flat
-                class="q-ml-sm"
-              />
-            </div>
-          </q-form>
+    </div>
+    <PermissionTable :tableData="rows" @viewDetails="handleViewDetails"></PermissionTable>
+    <div class="q-py-md flex flex-center" v-if="!$q.screen.lt.sm">
+      <q-pagination
+        v-model="current"
+        max="205"
+        direction-links
+        outline
+        :max-pages="8"
+        boundary-numbers
+      />
+    </div>
+    <div class="q-py-md flex flex-center" v-if="$q.screen.lt.sm">
+      <q-pagination
+        v-model="current"
+        max="205"
+        direction-links
+        outline
+        :max-pages="4"
+        boundary-numbers
+      />
+    </div>
+    <q-dialog v-model="bar2" persistent>
+      <q-card class="q-px-none" style="max-width: 80vw;">
+        <div class="flex align-center bg-primary text-white q-px-sm" style="overflow-x: hidden">
+          <p class="text-bold q-mt-sm">Add {{ dialog_name }}</p>
+          <q-space />
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
         </div>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+
+        <q-card-section class="q-px-none">
+          <div>
+            <q-form @submit="onSubmit" @reset="onReset">
+              <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                  <q-input
+                    outlined
+                    class="q-py-md q-px-sm"
+                    v-model="firstName"
+                    label="Your First Name *"
+                    lazy-rules
+                    :readonly="showViewData"
+                    dense
+                    :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                  />
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <q-input
+                    outlined
+                    class="q-py-md q-px-sm"
+                    v-model="lastName"
+                    label="Your Last Name *"
+                    lazy-rules
+                    :readonly="showViewData"
+                    dense
+                    :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                  />
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <q-input
+                    outlined
+                    v-model="assignDelibo"
+                    class="q-py-md q-px-sm"
+                    label="Assign Delibo*"
+                    lazy-rules
+                    :readonly="showViewData"
+                    dense
+                    :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                  />
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <q-input
+                    outlined
+                    v-model="assignCity"
+                    label="Your name *"
+                    class="q-py-md q-px-sm"
+                    lazy-rules
+                    dense
+                    :readonly="showViewData"
+                    :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                  />
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <q-input
+                    outlined
+                    v-model="mobile"
+                    label="Your mobile *"
+                    lazy-rules
+                    dense
+                    :readonly="showViewData"
+                    class="q-py-md q-px-sm"
+                    :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                  />
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <q-input
+                    outlined
+                    v-model="email"
+                    label="Your email *"
+                    class="q-py-md q-px-sm"
+                    lazy-rules
+                    :readonly="showViewData"
+                    dense
+                    :rules="[
+                    (val) => (val && val.length > 0) || 'Please type something',
+                  ]"
+                  />
+                </div>
+              </div>
+              <div class="q-py-md q-px-sm" v-if="!showViewData">
+                <q-btn label="Submit" type="submit" color="primary" />
+                <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+              </div>
+            </q-form>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </div>
 </template>
 
 <script>
