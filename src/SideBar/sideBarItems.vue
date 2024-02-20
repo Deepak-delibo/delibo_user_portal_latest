@@ -44,6 +44,11 @@ export default {
           path: "/booking",
           icon:"bookmarks"
         },
+        {
+          title: "Settings",
+          path: "/settings",
+          icon:"settings"
+        },
       ],
     };
   },

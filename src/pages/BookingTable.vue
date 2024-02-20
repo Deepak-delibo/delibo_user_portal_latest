@@ -193,7 +193,7 @@ export default defineComponent({
           });
           console.log("fjdkfjlkdjf", qrCodesArray.value);
           show_qr_code.value = true;
-        } else {
+        } else if(selectedRows.value.length == 0) {
           Swal.fire({
             icon: "error",
             title: "Please select the checkbox",

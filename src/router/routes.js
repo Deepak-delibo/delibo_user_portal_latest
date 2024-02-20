@@ -6,7 +6,8 @@ const routes = [
       { path: '', component: () => import('src/pages/PieChart.vue'), meta: { requiresAuth: false } },
       { path: '/dashboard',name:"Dashboard", component: () => import('pages/DashboardPage.vue'), meta: { requiresAuth: false } },
       { path: '/permission',name:"Permission", component: () => import('pages/PermissionPage.vue'), meta: { requiresAuth: false } },
-      { path: '/booking',name:"Booking", component: () => import('pages/BookingPage.vue'), meta: { requiresAuth: false } }
+      { path: '/booking',name:"Booking", component: () => import('pages/BookingPage.vue'), meta: { requiresAuth: false } },
+      { path: '/settings',name:"Settings", component: () => import('pages/SettingPage.vue'), meta: { requiresAuth: false } }
     ]
   },
   {

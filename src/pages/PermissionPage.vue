@@ -102,8 +102,8 @@
       boundary-numbers
     />
   </div>
-  <q-dialog v-model="bar2" persistent full-width>
-    <q-card class="q-px-none">
+  <q-dialog v-model="bar2" persistent >
+    <q-card class="q-px-none" style="max-width: 80vw;">
       <div
         class="flex align-center bg-primary text-white q-px-sm"
         style="overflow-x: hidden"
@@ -119,7 +119,7 @@
         <div>
           <q-form @submit="onSubmit" @reset="onReset">
             <div class="row">
-              <div class="col-12 col-md-6 col-lg-4">
+              <div class="col-12 col-md-6 col-lg-6">
                 <q-input
                   outlined
                   class="q-py-md q-px-sm"
@@ -133,7 +133,7 @@
                   ]"
                 />
               </div>
-              <div class="col-12 col-md-6 col-lg-4">
+              <div class="col-12 col-md-6 col-lg-6">
                 <q-input
                   outlined
                   class="q-py-md q-px-sm"
@@ -147,7 +147,7 @@
                   ]"
                 />
               </div>
-              <div class="col-12 col-md-6 col-lg-4">
+              <div class="col-12 col-md-6 col-lg-6">
                 <q-input
                   outlined
                   v-model="assignDelibo"
@@ -161,7 +161,7 @@
                   ]"
                 />
               </div>
-              <div class="col-12 col-md-6 col-lg-4">
+              <div class="col-12 col-md-6 col-lg-6">
                 <q-input
                   outlined
                   v-model="assignCity"
@@ -175,7 +175,7 @@
                   ]"
                 />
               </div>
-              <div class="col-12 col-md-6 col-lg-4">
+              <div class="col-12 col-md-6 col-lg-6">
                 <q-input
                   outlined
                   v-model="mobile"
@@ -189,7 +189,7 @@
                   ]"
                 />
               </div>
-              <div class="col-12 col-md-6 col-lg-4">
+              <div class="col-12 col-md-6 col-lg-6">
                 <q-input
                   outlined
                   v-model="email"

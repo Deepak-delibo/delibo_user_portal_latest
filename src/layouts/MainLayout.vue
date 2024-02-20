@@ -42,17 +42,19 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above :breakpoint="500" bordered>
-      <div class="q-px-xl q-py-md q-mx-md">
+      <div class="q-py-md q-mx-md text-center">
         <img
           src="images/delibo.svg"
           loading="lazy"
           alt="Delibo Logo"
-          width="150"
-          height="150"
+          height="160"
         />
 
-        <div class="q-px-xl q-py-md text-weight-bolder text-h6 text-primary">
+        <div class="text-center text-weight-bolder text-h6 text-primary">
           DELIBO
+        </div>
+        <div class="text-center text-weight-bolder text-h6 text-primary">
+          B2B
         </div>
       </div>
       <q-list>
