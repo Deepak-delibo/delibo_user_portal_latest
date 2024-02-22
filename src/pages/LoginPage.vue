@@ -3,7 +3,7 @@
     <div class="q-pa-md q-my-md">
       <div class="text-center">
         <img
-          src="../../public/images/delibo-logo.svg"
+          src="/images/delibo-logo.svg"
           loading="lazy"
           alt="delibo-logo"
           class="logo"

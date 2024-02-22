@@ -47,7 +47,7 @@
           src="images/delibo.svg"
           loading="lazy"
           alt="Delibo Logo"
-          height="160"
+          height="75"
         />
 
         <div class="text-center text-weight-bolder text-h6 text-primary">
