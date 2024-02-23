@@ -8,21 +8,44 @@
         :options="options"
         class="text-capitalize"
       />
-      <q-btn color="primary" icon="add" :label="dialog_name" size="md" @click="bar2 = true" />
+      <q-btn
+        color="primary"
+        icon="add"
+        :label="dialog_name"
+        size="md"
+        @click="bar2 = true"
+      />
     </div>
+    <OTP
+      size="small"
+      :fields="fieldSize"
+      inputstyle="width: 10px; height: 50px; font-size: 40px; margin: 3px; border-radius: 5px;"
+      type="number"
+      className="example-class-name"
+      @OTPValueChanged="logOtpValue"
+    />
     <div class="row q-mt-sm q-col-gutter-xs">
       <div class="col-12 col-md-4 col-lg-4">
         <q-input
           v-model="search_input_value"
           debounce="500"
+          input-mode="numeric"
           dense
           outlined
+          type="number"
+          @click="openNumericKeyboard"
           placeholder="Search"
           label="Search"
         />
       </div>
       <div class="col-12 col-md-4 col-lg-4">
-        <q-select outlined dense v-model="model" :options="selectOptions" label="City" />
+        <q-select
+          outlined
+          dense
+          v-model="model"
+          :options="selectOptions"
+          label="City"
+        />
       </div>
       <div class="col-12 col-md-4 col-lg-4">
         <!-- <q-select
@@ -42,30 +65,35 @@
           label="Parent Category"
           :options="businessCategoriesToSelect"
           :option-label="
-          (opt) => (Object(opt) === opt && 'title' in opt ? opt.title : null)
-        "
+            (opt) => (Object(opt) === opt && 'title' in opt ? opt.title : null)
+          "
           :option-value="
-          (opt) => (Object(opt) === opt && '@id' in opt ? opt['@id'] : null)
-        "
+            (opt) => (Object(opt) === opt && '@id' in opt ? opt['@id'] : null)
+          "
           :display-value="
-          parentCategory.length <= 2
-            ? parentCategory.map((item) => item.title).join(', ')
-            : `${parentCategory
-                .slice(0, 2)
-                .map((item) => item.title)
-                .join(', ')} (+${parentCategory.length - 2} others)`
-        "
+            parentCategory.length <= 2
+              ? parentCategory.map((item) => item.title).join(', ')
+              : `${parentCategory
+                  .slice(0, 2)
+                  .map((item) => item.title)
+                  .join(', ')} (+${parentCategory.length - 2} others)`
+          "
           map-options
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">No Business Categories Found</q-item-section>
+              <q-item-section class="text-grey"
+                >No Business Categories Found</q-item-section
+              >
             </q-item>
           </template>
         </q-select>
       </div>
     </div>
-    <PermissionTable :tableData="rows" @viewDetails="handleViewDetails"></PermissionTable>
+    <PermissionTable
+      :tableData="rows"
+      @viewDetails="handleViewDetails"
+    ></PermissionTable>
     <div class="q-py-md flex flex-center" v-if="!$q.screen.lt.sm">
       <q-pagination
         v-model="current"
@@ -87,8 +115,11 @@
       />
     </div>
     <q-dialog v-model="bar2" persistent>
-      <q-card class="q-px-none" style="max-width: 80vw;">
-        <div class="flex align-center bg-primary text-white q-px-sm" style="overflow-x: hidden">
+      <q-card class="q-px-none" style="max-width: 80vw">
+        <div
+          class="flex align-center bg-primary text-white q-px-sm"
+          style="overflow-x: hidden"
+        >
           <p class="text-bold q-mt-sm">Add {{ dialog_name }}</p>
           <q-space />
           <q-btn dense flat icon="close" v-close-popup>
@@ -110,8 +141,9 @@
                     :readonly="showViewData"
                     dense
                     :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
+                      (val) =>
+                        (val && val.length > 0) || 'Please type something',
+                    ]"
                   />
                 </div>
                 <div class="col-12 col-md-6 col-lg-6">
@@ -124,8 +156,9 @@
                     :readonly="showViewData"
                     dense
                     :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
+                      (val) =>
+                        (val && val.length > 0) || 'Please type something',
+                    ]"
                   />
                 </div>
                 <div class="col-12 col-md-6 col-lg-6">
@@ -138,8 +171,9 @@
                     :readonly="showViewData"
                     dense
                     :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
+                      (val) =>
+                        (val && val.length > 0) || 'Please type something',
+                    ]"
                   />
                 </div>
                 <div class="col-12 col-md-6 col-lg-6">
@@ -152,8 +186,9 @@
                     dense
                     :readonly="showViewData"
                     :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
+                      (val) =>
+                        (val && val.length > 0) || 'Please type something',
+                    ]"
                   />
                 </div>
                 <div class="col-12 col-md-6 col-lg-6">
@@ -166,8 +201,9 @@
                     :readonly="showViewData"
                     class="q-py-md q-px-sm"
                     :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
+                      (val) =>
+                        (val && val.length > 0) || 'Please type something',
+                    ]"
                   />
                 </div>
                 <div class="col-12 col-md-6 col-lg-6">
@@ -180,14 +216,21 @@
                     :readonly="showViewData"
                     dense
                     :rules="[
-                    (val) => (val && val.length > 0) || 'Please type something',
-                  ]"
+                      (val) =>
+                        (val && val.length > 0) || 'Please type something',
+                    ]"
                   />
                 </div>
               </div>
               <div class="q-py-md q-px-sm" v-if="!showViewData">
                 <q-btn label="Submit" type="submit" color="primary" />
-                <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                <q-btn
+                  label="Reset"
+                  type="reset"
+                  color="primary"
+                  flat
+                  class="q-ml-sm"
+                />
               </div>
             </q-form>
           </div>
@@ -202,14 +245,25 @@ import { ref, computed, watch, onMounted } from "vue";
 import PermissionTable from "./PermissionTable.vue";
 import { inject } from "vue";
 import Swal from "sweetalert2";
+import { OTP } from "vue3-otp-input-field";
 import { Loading } from "quasar";
 export default {
   components: {
     PermissionTable,
+    OTP,
   },
   setup() {
     const showViewData = ref(false);
     const bus = inject("bus");
+    const openNumericKeyboard = () => {
+      // Trigger opening of numeric keyboard for mobile devices
+      if (window.matchMedia("(pointer: coarse)").matches) {
+        const inputElement = document.querySelector("input[type=number]");
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }
+    };
     const rows = ref([
       {
         firstName: "John",
@@ -379,6 +433,26 @@ export default {
       { label: "Facility Manager", value: "fm" },
       { label: "Feild Agent", value: "fa" },
     ]);
+    const logOtpValue = (val = []) => {
+      const filteredArray = val.filter((item) => item !== "");
+      if (filteredArray.length == fieldSize.value) {
+        console.log("findfkdjfkjafl123456456", parseInt(filteredArray.join('')));
+      }
+      // code.value = val;
+      // const all_code_data = [];
+      // code.value.forEach((element) => {
+      //   all_code_data.push(element);
+      // });
+      // if (all_code_data.length == fieldSize.value) {
+      //   console.log("findfkdjfkjafl", all_code_data.join(""));
+      // }
+    };
+    const code = ref([]);
+    const fieldSize = ref(6);
+
+    function handleSubmit() {
+      console.log(code.value);
+    }
     onMounted(() => {
       // Listen to the 'countChanged' event
       Loading.show();
@@ -433,7 +507,6 @@ export default {
       (value) => {
         if (value !== null) {
           console.log("jdflkjfdlsdfajl", value);
-          alert("dfkjfkdjfksjlafjsdalk");
         }
       }
     );
@@ -450,8 +523,10 @@ export default {
     };
     return {
       showViewData,
+      logOtpValue,
       current: ref(3),
       search_input_value,
+      fieldSize,
       parentCategory,
       businessCategoriesToSelect,
       formattedSelectedItems,
@@ -462,6 +537,7 @@ export default {
       assignDelibo,
       dialog_name,
       mobile,
+      openNumericKeyboard,
       email,
       rows,
       bar2,
