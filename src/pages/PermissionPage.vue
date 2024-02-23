@@ -19,7 +19,8 @@
     <OTP
       size="small"
       :fields="fieldSize"
-      inputstyle="width: 10px; height: 50px; font-size: 40px; margin: 3px; border-radius: 5px;"
+      class="Otp_input"
+      inputstyle=" height: 50px; font-size: 40px; margin: 3px;"
       type="number"
       className="example-class-name"
       @OTPValueChanged="logOtpValue"

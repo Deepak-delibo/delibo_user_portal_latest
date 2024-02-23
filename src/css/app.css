@@ -198,3 +198,10 @@ textarea:-webkit-autofill:focus {
 .q-header{
   z-index: 9 !important;
 }
+.Otp_input input{
+  background-color: #EF9105 !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 2px !important;
+
+}
