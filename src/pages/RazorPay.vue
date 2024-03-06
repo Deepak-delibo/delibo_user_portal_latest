@@ -2,7 +2,7 @@
   <div class="bg-gray-100 border border-2 m-5 p-5">
     <div class="flex justify-center items-center mt-4">
       <div class="grid grid-cols-1">
-        <div class="text-sm px-2 py-2 m-3 text-black bg-gray-100">
+        <!-- <div class="text-sm px-2 py-2 m-3 text-black bg-gray-100">
           Make your first payment using RazorPay Payment Gateway. Use Card
           number : 4718 6091 0820 4366, Expiry :12/99 CVV : 123, OTP :12345
         </div>
@@ -12,18 +12,18 @@
             @click="authenticateSubscription"
             class="w-[120px] cursor-pointer text-center text-sm px-2 py-2 border border-gray-300 text-black bg-[#c2e7ff]"
           >
-            Pay 10 INR
+            Pay 1 INR
           </div>
-        </div>
+        </div> -->
 
         <table v-if="payment_done" class="px-2 py-5 mt-5">
           <tr>
             <th>User Name</th>
-            <td>Pankaj kumar</td>
+            <!-- <td>Pankaj kumar</td> -->
           </tr>
           <tr>
             <th>User Email</th>
-            <td>nit***@gmail.com</td>
+            <!-- <td>nit***@gmail.com</td> -->
           </tr>
           <tr>
             <th>Payment ID</th>
@@ -52,14 +52,13 @@
 
 <script>
 import Swal from "sweetalert2";
-
 export default {
   props: ["order_id"], // it is optional and will required if your using PHP.
   data() {
     return {
       script: `https://checkout.razorpay.com/v1/checkout.js`,
       key_id: "rzp_test_290ihMmNd8b6zi",
-      key_secrete: import.meta.env.VITE_RAZORPAY_SECRET,
+      // key_secrete: "3pLxoO5zhbbWKHHA1xqF8011",
       payment_done: false,
       payment_id: "",
       payment_status: "",
@@ -91,13 +90,14 @@ export default {
 
       var options = {
         key: this.key_id,
-        amount: 1000, //  Hence, 10 rupees in paise
+        amount:10000, //  Hence, 10 rupees in paise
         currency: "INR",
-        name: "Test Payment",
-        description: "Test Payment ",
+        name: "Payment",
+        description: "Payment ",
+        order_id:this.order_id,
         prefill: {
-          name: "Pankaj kumar",
-          email: "demo@example.com",
+          name: "",
+          email: "",
           contact: "91",
           // method: this.selectedPaymentMethod,
         },
@@ -150,11 +150,10 @@ export default {
     },
   },
   async created() {
+    console.log("fidfjdfjdfkj",this.order_id)
     if (this.order_id) {
       this.authenticateSubscription();
     }
-
-    // card :  4718 6091 0820 4366
   },
 };
 </script>

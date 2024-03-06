@@ -78,11 +78,16 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+  <q-btn @click="get_order_id">Pay now</q-btn>
+  <div v-if="order_id">
   <RazorPay :order_id="order_id"></RazorPay>
+
+  </div>
 </template>
 <script>
 import settingTable from "pages/settingTable.vue";
 import { ref } from "vue";
+import axios from 'axios'
 import RazorPay from 'pages/RazorPay.vue';
 export default {
   components: {
@@ -91,7 +96,7 @@ export default {
   },
   setup() {
     const durationDialog = ref(false);
-    const order_id = ref("order_N3H7KIRUOOef7h")
+    const order_id = ref(null)
     const rows = ref([
       {
         city: "Mumbai",
@@ -208,10 +213,27 @@ export default {
         duration: "1 hours",
       },
     ]);
+
+    const get_order_id= async ()=> {
+      try {
+        const response = await axios.post('https://vtrx9htcd5.execute-api.ap-south-1.amazonaws.com/dev/createOrderId', {
+         data:{
+          amount: 100,
+          currency: 'INR'
+         }
+        });
+
+        console.log('Response:', response.data);
+        order_id.value = response.data.id
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
     return{
       rows,
       durationDialog,
-      order_id
+      order_id,
+      get_order_id
     }
   },
 };
